@@ -3901,6 +3901,67 @@ section {
     }
   })();
 
+  // === INJECT SHOPPING REMINDERS INTO MONTHLY CARDS (3 months early) ===
+  (function injectShoppingReminders() {
+    var rows = document.querySelectorAll('.seed-table tbody tr');
+    var reminders = {}; // { monthNum: [{ name, variety, status, need }] }
+    rows.forEach(function(row) {
+      var plantMonth = parseInt(row.getAttribute('data-plant-month'));
+      var need = row.getAttribute('data-need');
+      if (!plantMonth || need === 'have') return; // skip items we already have
+      var cells = row.querySelectorAll('td');
+      if (cells.length < 2) return;
+      var name = cells[0].textContent.trim();
+      var variety = cells[1].textContent.trim();
+      var status = need === 'buy' ? 'Order' : 'Check';
+      // Show 3 months before planting
+      var shopMonth = plantMonth - 3;
+      if (shopMonth < 1) shopMonth += 12;
+      if (!reminders[shopMonth]) reminders[shopMonth] = [];
+      reminders[shopMonth].push({ name: name, variety: variety, status: status, plantMonth: plantMonth });
+    });
+    var monthNames = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    Object.keys(reminders).forEach(function(mo) {
+      var card = document.querySelector('.month-card[data-month="' + mo + '"]');
+      if (!card) return;
+      var body = card.querySelector('.month-body');
+      if (!body) return;
+      var html = '<div class="task-category"><h4 style="color:#1565c0;">&#x1F6D2; Order Seeds/Supplies</h4><ul class="task-list">';
+      reminders[mo].forEach(function(item) {
+        var taskId = 'shop-remind-' + mo + '-' + item.name.toLowerCase().replace(/\s+/g, '-');
+        html += '<li class="task-item"><input type="checkbox" data-task="' + taskId + '">' +
+          '<span class="task-text"><strong>' + item.status + ':</strong> ' + item.name + ' &mdash; ' + item.variety +
+          ' <span style="color:var(--text-light);font-size:0.78rem;">(plant ' + monthNames[item.plantMonth] + ')</span></span></li>';
+      });
+      html += '</ul></div>';
+      // Insert at the top of the month body, after the progress bar
+      var progress = body.querySelector('.month-progress');
+      if (progress) {
+        progress.insertAdjacentHTML('afterend', html);
+      } else {
+        body.insertAdjacentHTML('afterbegin', html);
+      }
+      // Wire up the new checkboxes
+      body.querySelectorAll('input[data-task^="shop-remind-"]').forEach(function(cb) {
+        var key = cb.dataset.task;
+        var s = loadState();
+        if (s[key]) {
+          cb.checked = true;
+          cb.closest('.task-item').classList.add('done');
+        }
+        cb.addEventListener('change', function() {
+          var st = loadState();
+          st[this.dataset.task] = this.checked;
+          saveState(st);
+          this.closest('.task-item').classList.toggle('done', this.checked);
+          updateProgress(this.closest('.month-card'));
+        });
+      });
+      // Update progress to include new checkboxes
+      updateProgress(card);
+    });
+  })();
+
   autoLinkTerms();
 })();
 </script>
