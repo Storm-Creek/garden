@@ -3468,13 +3468,29 @@ section {
     // === FROST ALERT ===
     var frostDiv = document.getElementById('frost-alert');
     var minTemps = data.daily.temperature_2m_min || [];
+    var hourlyTimes = (data.hourly && data.hourly.time) || [];
+    var hourlyTemps = (data.hourly && data.hourly.temperature_2m) || [];
     var frostDays = [];
     for (var fi = (todayIdx >= 0 ? todayIdx : 0); fi < dates.length; fi++) {
       if (minTemps[fi] != null && minTemps[fi] <= 34) {
         var frostDate = new Date(dates[fi] + 'T12:00');
-        var dayName = fi === todayIdx ? 'TONIGHT' :
-          frostDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-        frostDays.push({ date: dayName, low: Math.round(minTemps[fi]), isTonight: fi === todayIdx });
+        var dayName = frostDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        // Find the actual hour of the minimum from hourly data
+        var lowTime = '';
+        var lowestTemp = 999;
+        for (var hi = 0; hi < hourlyTimes.length; hi++) {
+          if (hourlyTimes[hi].startsWith(dates[fi]) && hourlyTemps[hi] != null && hourlyTemps[hi] < lowestTemp) {
+            lowestTemp = hourlyTemps[hi];
+            var hr = parseInt(hourlyTimes[hi].substring(11, 13));
+            var ampm = hr >= 12 ? 'PM' : 'AM';
+            var hr12 = hr === 0 ? 12 : hr > 12 ? hr - 12 : hr;
+            lowTime = hr12 + ' ' + ampm;
+          }
+        }
+        var isTonight = fi === todayIdx;
+        var label = isTonight ? 'TONIGHT' : dayName;
+        if (lowTime) label += ' around ' + lowTime;
+        frostDays.push({ date: label, low: Math.round(minTemps[fi]), isTonight: isTonight });
       }
     }
     if (frostDays.length > 0 && (!cachedAt || dataAge < 24)) {
@@ -3568,6 +3584,7 @@ section {
     try {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
         `&daily=precipitation_sum,temperature_2m_max,temperature_2m_min,precipitation_probability_max,et0_fao_evapotranspiration` +
+        `&hourly=temperature_2m` +
         `&past_days=7&forecast_days=5&temperature_unit=fahrenheit&precipitation_unit=inch&timezone=America%2FNew_York`;
 
       const resp = await fetch(url);
