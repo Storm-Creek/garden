@@ -22,16 +22,29 @@ const firebaseConfig = {
 let firebaseReady = false;
 let dbRef = null;
 let seedDbRef = null;
+let pinRef = null;
+let workerMode = false;
 
 try {
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
   dbRef = db.ref('garden2026/tasks');
   seedDbRef = db.ref('garden2026/seeds');
+  pinRef = db.ref('garden2026/config/workerPin');
   firebaseReady = !firebaseConfig.apiKey.startsWith('PASTE');
+  // Set initial PIN if not already set
+  if (firebaseReady) {
+    pinRef.once('value', function(snap) {
+      if (!snap.val()) pinRef.set('1225');
+    });
+  }
 } catch(e) {
   console.log('Firebase not configured, using localStorage only');
 }
+
+// Check if this device has a saved PIN
+var savedPin = localStorage.getItem('storm-creek-worker-pin');
+
 </script>
 <style>
 :root {
@@ -198,96 +211,454 @@ section {
 
 .card:hover { transform: translateY(-1px); }
 
-/* ===== SPATIAL GARDEN MAP ===== */
+/* ===== SPATIAL GARDEN MAP (RPG Style) ===== */
+
+/* Pixel font for map labels */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 .garden-map-spatial {
   position: relative;
   width: 100%;
-  padding-bottom: 72%; /* aspect ratio matching drawing */
-  background: #f0ead6;
-  border-radius: 12px;
-  border: 2px solid var(--sage-light);
+  padding-bottom: 72%;
+  /* Tiled grass checkerboard */
+  background:
+    repeating-conic-gradient(#5a9e3e 0% 25%, #4e8f35 0% 50%) 0 0 / 24px 24px;
+  border-radius: 4px;
+  border: 3px solid #3d6b28;
   overflow: visible;
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.15);
+}
+
+/* Scattered grass tufts & flowers on the ground */
+.garden-map-spatial::before {
+  content: '🌿 🌼 🌿 🍀 🌸 🌿 🍀 🌼 🌿 🌸 🌿 🍀 🌼 🌿 🌸 🍀 🌿 🌼';
+  position: absolute;
+  inset: 0;
+  font-size: 0.5rem;
+  line-height: 3.5;
+  letter-spacing: 1.5em;
+  word-spacing: 2em;
+  overflow: hidden;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 1;
+  padding: 4px;
+}
+
+/* Dirt path overlay */
+.garden-map-spatial::after {
+  content: '';
+  position: absolute;
+  left: 40%; top: 0; width: 6%; height: 100%;
+  background: repeating-linear-gradient(
+    180deg,
+    #c4a46c 0px, #b8955e 3px, #c4a46c 6px
+  );
+  border-left: 2px solid #a08040;
+  border-right: 2px solid #a08040;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 2px;
 }
 
 .map-bed {
   position: absolute;
-  border: 2px solid var(--sage-light);
-  border-radius: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s ease;
   font-size: 0.7rem;
   text-align: center;
   padding: 2px;
   overflow: visible;
   z-index: 2;
+  /* Pixel-art style: hard edges, thick border */
+  border: 3px solid #6b4226;
+  border-radius: 2px;
+  image-rendering: pixelated;
+  /* Bottom-right shadow for depth */
+  box-shadow:
+    3px 3px 0 #3d2510,
+    -1px -1px 0 #a07040 inset;
 }
 
+/* Bounce-up on hover like picking up an item */
 .map-bed:hover {
-  transform: scale(1.06);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow:
+    3px 7px 0 #3d2510,
+    -1px -1px 0 #a07040 inset;
   z-index: 15;
+  filter: brightness(1.1);
+}
+
+/* Active/tap glow ring */
+.map-bed.active {
+  box-shadow:
+    3px 3px 0 #3d2510,
+    0 0 0 3px #ffd700,
+    0 0 12px #ffd700;
 }
 
 .map-bed .mb-num {
+  font-family: 'VT323', monospace;
   font-weight: 700;
-  font-size: 0.8rem;
-  color: var(--earth);
-  line-height: 1.1;
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
 
 .map-bed .mb-label {
-  font-size: 0.55rem;
-  color: var(--text-light);
-  line-height: 1.1;
+  font-family: 'VT323', monospace;
+  font-size: 0.65rem;
+  color: #ffe;
+  line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  text-shadow: 1px 1px 0 #000;
 }
 
 .map-bed .mb-emoji {
   font-size: 0.9rem;
   line-height: 1;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.4));
 }
 
-/* Bed type colors */
-.map-bed.raised { border-color: var(--sage); background: #e8f0db; }
-.map-bed.perennial { border-color: #9b59b6; background: #f3e5f5; }
-.map-bed.structure { border-color: var(--soil-light); background: #fdf0d5; }
-.map-bed.ground { border-color: var(--soil); background: #f5edd6; }
-.map-bed.new-bed { border-color: var(--blush); background: #fff0f3; }
-.map-bed.arbor-type { border-color: #26a69a; background: #e0f2f1; }
+/* ---- Raised beds: tilled soil with wooden fence border ---- */
+.map-bed.raised {
+  border-color: #8B6914;
+  background:
+    /* Tilled soil furrow rows */
+    repeating-linear-gradient(
+      0deg,
+      #7a5c2e 0px, #6b4d22 2px, #8a6a38 4px, #7a5c2e 6px
+    );
+}
 
-/* Bed detail popup on map */
+/* Little fence posts on top edge */
+.map-bed.raised::before {
+  content: '╥ ╥ ╥ ╥ ╥ ╥';
+  position: absolute;
+  top: -8px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 0.5rem;
+  color: #8B6914;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 0 #5a3e0a;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Fence rail along top */
+.map-bed.raised::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -1px; right: -1px;
+  height: 3px;
+  background: linear-gradient(90deg, #b8955e, #c4a46c, #b8955e);
+  border: 1px solid #8B6914;
+  border-radius: 1px;
+  z-index: 3;
+}
+
+/* ---- Perennial beds: berry bushes / orchard look ---- */
+.map-bed.perennial {
+  border-color: #2d6b1e;
+  background:
+    /* Dense foliage pattern */
+    radial-gradient(circle at 20% 30%, #4a8e30 3px, transparent 4px),
+    radial-gradient(circle at 50% 60%, #3d7a28 4px, transparent 5px),
+    radial-gradient(circle at 80% 25%, #4a8e30 3px, transparent 4px),
+    radial-gradient(circle at 35% 75%, #3d7a28 3px, transparent 4px),
+    radial-gradient(circle at 70% 70%, #4a8e30 4px, transparent 5px),
+    #357a22;
+  background-size: 100% 100%;
+}
+
+.map-bed.perennial::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px dashed #2d6b1e;
+  border-radius: 2px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.map-bed.perennial::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 2px;
+  width: 100%; height: 4px;
+  background: #1a4a10;
+  border-radius: 0 0 2px 2px;
+  z-index: -1;
+}
+
+/* ---- Structure beds: stone/wood building ---- */
+.map-bed.structure {
+  border-color: #7a6840;
+  background:
+    /* Stone/brick pattern */
+    repeating-linear-gradient(
+      90deg,
+      #d4b87a 0px, #d4b87a 8px, #c4a46c 8px, #c4a46c 9px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 6px, #b8955e 6px, #b8955e 7px
+    );
+}
+
+.map-bed.structure::before {
+  content: '';
+  position: absolute;
+  right: -4px; top: 2px;
+  width: 4px; height: 100%;
+  background: repeating-linear-gradient(180deg, #a08040, #8a6c30 3px);
+  z-index: -1;
+}
+
+.map-bed.structure::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 2px;
+  width: 100%; height: 4px;
+  background: #7a5c20;
+  z-index: -1;
+}
+
+/* ---- Ground beds: bare earth mound ---- */
+.map-bed.ground {
+  border-color: #8B6914;
+  background:
+    /* Patchy earth with small green sprouts */
+    radial-gradient(circle at 25% 40%, #6d8b3a 2px, transparent 3px),
+    radial-gradient(circle at 60% 20%, #6d8b3a 2px, transparent 3px),
+    radial-gradient(circle at 75% 65%, #6d8b3a 2px, transparent 3px),
+    radial-gradient(circle at 40% 80%, #6d8b3a 2px, transparent 3px),
+    repeating-linear-gradient(0deg, #9e8250 0px, #8a7040 3px, #9e8250 6px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+}
+
+.map-bed.ground::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 1px;
+  width: 100%; height: 3px;
+  background: #6a5020;
+  border-radius: 0 0 2px 2px;
+  z-index: -1;
+}
+
+/* ---- New beds: sparkly fresh plots ---- */
+.map-bed.new-bed {
+  border-color: #c47a90;
+  background:
+    repeating-linear-gradient(0deg, #9e6848 0px, #8a5838 2px, #9e6848 4px);
+  animation: newBedGlow 2s ease-in-out infinite;
+}
+
+@keyframes newBedGlow {
+  0%, 100% { box-shadow: 3px 3px 0 #3d2510, 0 0 0 transparent; }
+  50% { box-shadow: 3px 3px 0 #3d2510, 0 0 8px rgba(255,183,197,0.5); }
+}
+
+.map-bed.new-bed::before {
+  content: '✨';
+  position: absolute;
+  top: -6px; right: -4px;
+  font-size: 0.6rem;
+  z-index: 4;
+  pointer-events: none;
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.map-bed.new-bed::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 2px;
+  width: 100%; height: 3px;
+  background: #6a3820;
+  z-index: -1;
+}
+
+/* ---- Arbor beds: trellis with vine ---- */
+.map-bed.arbor-type {
+  border-color: #1a7a70;
+  background:
+    linear-gradient(135deg, #4a8e78, #3d7a68);
+}
+
+/* Trellis arch */
+.map-bed.arbor-type::before {
+  content: '⌢';
+  position: absolute;
+  top: -10px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #8B6914;
+  text-shadow: 0 1px 0 #5a3e0a;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.map-bed.arbor-type::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 1px;
+  width: 100%; height: 3px;
+  background: #1a5a50;
+  z-index: -1;
+}
+
+/* ---- Greenhouse: glass building with peaked roof ---- */
+.map-bed.greenhouse {
+  border-color: #5a8aaa;
+  background:
+    /* Glass pane grid */
+    repeating-linear-gradient(90deg, rgba(173,216,230,0.6) 0px, rgba(173,216,230,0.6) 7px, rgba(100,160,190,0.4) 7px, rgba(100,160,190,0.4) 8px),
+    repeating-linear-gradient(0deg, rgba(173,216,230,0.5) 0px, rgba(173,216,230,0.5) 7px, rgba(100,160,190,0.3) 7px, rgba(100,160,190,0.3) 8px),
+    linear-gradient(135deg, #c8e6f0, #a8d4e4);
+  box-shadow:
+    3px 3px 0 #3a6a80,
+    -1px -1px 0 #d8eef5 inset;
+}
+
+/* Peaked roof */
+.map-bed.greenhouse::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 5%; right: 5%;
+  height: 12px;
+  background: linear-gradient(135deg, #e8a050, #d08030);
+  clip-path: polygon(0 100%, 50% 15%, 100% 100%);
+  border-top: 2px solid #a06020;
+  z-index: 3;
+}
+
+/* Little door */
+.map-bed.greenhouse::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 50%;
+  transform: translateX(-50%);
+  width: 25%; height: 35%;
+  background: #8B6914;
+  border: 2px solid #6a4e0a;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  z-index: 3;
+}
+
+/* ---- RPG decorative elements ---- */
+.rpg-tree {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  font-size: 1.6rem;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+}
+
+.rpg-deco {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.rpg-water {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  font-size: 0.9rem;
+  animation: waterShimmer 2s ease-in-out infinite;
+}
+
+@keyframes waterShimmer {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Sign post for the title */
+.rpg-sign {
+  position: absolute;
+  z-index: 10;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'VT323', monospace;
+  font-size: 0.75rem;
+  color: #3d2510;
+  background: #d4b87a;
+  border: 2px solid #8B6914;
+  border-radius: 2px;
+  padding: 2px 8px;
+  box-shadow: 2px 2px 0 #5a3e0a;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Bed detail popup — RPG dialog box */
 .map-bed .bed-detail {
   display: none;
   position: absolute;
   top: 105%;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--white);
-  border: 2px solid var(--sage);
-  border-radius: 10px;
+  background: #fdf5e6;
+  border: 3px solid #8B6914;
+  border-radius: 3px;
   padding: 0.7rem;
   width: 240px;
   z-index: 30;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  box-shadow: 4px 4px 0 #3d2510;
   text-align: left;
   font-size: 0.78rem;
   line-height: 1.4;
+  font-family: 'VT323', monospace;
+}
+
+/* Dialog triangle pointer */
+.map-bed .bed-detail::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-bottom-color: #8B6914;
+  border-top: none;
 }
 
 .map-bed:hover .bed-detail,
 .map-bed.active .bed-detail { display: block; }
 
-.bed-detail h4 { color: var(--sage); margin-bottom: 0.3rem; font-size: 0.85rem; }
-.bed-detail .companions { color: #c2185b; font-style: italic; margin-top: 0.3rem; font-size: 0.72rem; }
+.bed-detail h4 { color: #2d6b1e; margin-bottom: 0.3rem; font-size: 1rem; font-family: 'VT323', monospace; }
+.bed-detail .companions { color: #c2185b; font-style: italic; margin-top: 0.3rem; font-size: 0.85rem; }
 
-/* North arrow */
+/* North arrow — RPG compass style */
 .north-arrow {
   position: absolute;
   top: 2%;
@@ -298,34 +669,27 @@ section {
   z-index: 10;
   font-weight: 900;
   font-size: 1.1rem;
-  color: var(--earth);
+  color: #ffd700;
+  background: rgba(61,37,16,0.75);
+  border: 2px solid #8B6914;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  box-shadow: 2px 2px 0 #3d2510;
 }
 
 .north-arrow .n-letter {
-  font-size: 1.2rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.4rem;
   font-weight: 900;
-  text-shadow: 1px 1px 0 #fff;
+  color: #ffd700;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1;
 }
 
 .north-arrow .n-shaft {
-  width: 3px;
-  height: 32px;
-  background: var(--earth);
-  position: relative;
-  margin-top: 2px;
-}
-
-.north-arrow .n-shaft::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-bottom: 10px solid var(--earth);
+  display: none;
 }
 
 /* Map legend */
@@ -972,6 +1336,16 @@ section {
   .companion-layers { grid-template-columns: 1fr; }
   nav a { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
   .month-header h3 { font-size: 1.1rem; }
+  /* RPG map mobile adjustments */
+  .map-bed { box-shadow: 2px 2px 0 #3d2510; border-width: 2px; }
+  .map-bed .mb-num { font-size: 0.85rem; }
+  .map-bed.raised::before { font-size: 0.35rem; top: -6px; }
+  .map-bed.raised::after { top: -3px; height: 2px; }
+  .map-bed.greenhouse::before { height: 8px; top: -8px; }
+  .rpg-tree { font-size: 1.1rem; }
+  .rpg-sign { font-size: 0.6rem; }
+  .garden-map-spatial { background-size: 16px 16px; }
+  .garden-map-spatial::before { font-size: 0.35rem; opacity: 0.25; }
 }
 </style>
 </head>
@@ -1008,6 +1382,7 @@ section {
   <a href="knowledge.html" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">&#x1F4D6; How-To Guide</a>
   <a href="#" class="filter-btn" onclick="filterThisMonth(event)">This Month</a>
   <a href="#" class="filter-btn" onclick="showAllMonths(event)">All Months</a>
+  <a href="#" id="worker-login-btn" onclick="toggleWorkerMode(event)" style="background:#fff3e0;border-color:#e65100;color:#e65100;">&#x1F512; View Only</a>
 </nav>
 
 <!-- SEARCH RESULTS OVERLAY -->
@@ -1691,7 +2066,7 @@ section {
       </div>
 
       <!-- 12 (greenhouse, larger, right side of bottom row) -->
-      <div class="map-bed structure" onclick="toggleBed(this)" style="left:53%;top:69%;width:12%;height:13%;">
+      <div class="map-bed structure greenhouse" onclick="toggleBed(this)" style="left:53%;top:69%;width:12%;height:13%;">
         <div class="mb-emoji">&#x1F3E1;</div>
         <div class="mb-num">12</div>
         <div class="mb-label">Greenhouse</div>
@@ -1744,17 +2119,37 @@ section {
         </div>
       </div>
 
+      <!-- RPG decorative elements -->
+      <div class="rpg-tree" style="left:84%;top:2%;">&#x1F332;</div>
+      <div class="rpg-tree" style="left:82%;top:8%;">&#x1F333;</div>
+      <div class="rpg-tree" style="left:92%;top:6%;">&#x1F332;</div>
+      <div class="rpg-tree" style="left:1%;top:85%;">&#x1F333;</div>
+      <div class="rpg-tree" style="left:8%;top:88%;">&#x1F332;</div>
+      <div class="rpg-tree" style="left:88%;top:85%;">&#x1F333;</div>
+      <div class="rpg-tree" style="left:94%;top:78%;">&#x1F332;</div>
+      <div class="rpg-deco" style="left:72%;top:48%;">&#x1F33B;</div>
+      <div class="rpg-deco" style="left:78%;top:55%;">&#x1F337;</div>
+      <div class="rpg-deco" style="left:75%;top:62%;">&#x1F33A;</div>
+      <div class="rpg-deco" style="left:70%;top:72%;">&#x1F33C;</div>
+      <div class="rpg-deco" style="left:82%;top:68%;">&#x1F33B;</div>
+      <div class="rpg-water" style="left:68%;top:82%;">&#x1FAA3;</div>
+      <div class="rpg-deco" style="left:70%;top:86%;font-size:0.6rem;">&#x1F6BF;</div>
+      <div class="rpg-deco" style="left:38%;top:90%;font-size:0.7rem;">&#x1F41D;</div>
+      <div class="rpg-deco" style="left:55%;top:88%;font-size:0.6rem;">&#x1F98B;</div>
+      <div class="rpg-deco" style="left:22%;top:92%;font-size:0.6rem;">&#x1F41E;</div>
+      <div class="rpg-sign">&#x2694; Storm Creek Farm &#x2694;</div>
+
     </div>
 
-    <div class="map-legend">
-      <div class="legend-item"><div class="legend-swatch" style="background:#e8f0db;border-color:#87A96B"></div> Raised Bed</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#e0f2f1;border-color:#26a69a"></div> Arbor</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#fff0f3;border-color:#FFB7C5"></div> New for 2026</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#f3e5f5;border-color:#9b59b6"></div> Perennial</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#fdf0d5;border-color:#c4a44a"></div> Structure</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#f5edd6;border-color:#8B6914"></div> Ground Plot</div>
+    <div class="map-legend" style="font-family:'VT323',monospace;">
+      <div class="legend-item"><div class="legend-swatch" style="background:repeating-linear-gradient(0deg,#7a5c2e,#6b4d22 2px,#8a6a38 4px);border-color:#8B6914;border-radius:2px;"></div> Raised Bed</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#4a8e78;border-color:#1a7a70;border-radius:2px;"></div> Arbor</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:repeating-linear-gradient(0deg,#9e6848,#8a5838 2px);border-color:#c47a90;border-radius:2px;"></div> New &#x2728;</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#357a22;border-color:#2d6b1e;border-radius:2px;"></div> Perennial</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#d4b87a;border-color:#7a6840;border-radius:2px;"></div> Structure</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#9e8250;border-color:#8B6914;border-radius:2px;"></div> Ground Plot</div>
     </div>
-    <p style="font-size:0.75rem;color:var(--text-light);margin-top:0.5rem;text-align:center;">Hover/tap any bed for planting details &bull; North is up &bull; Layout matches actual garden spacing</p>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:0.5rem;text-align:center;font-family:'VT323',monospace;">Tap any plot for details &bull; N is up &bull; Layout matches real garden</p>
   </div>
 </section>
 
@@ -4053,6 +4448,92 @@ section {
       updateProgress(card);
     });
   })();
+
+  // ===== WORKER PIN ACCESS CONTROL =====
+  function setViewOnly(isViewOnly) {
+    workerMode = !isViewOnly;
+    var btn = document.getElementById('worker-login-btn');
+    // Disable/enable all task checkboxes
+    document.querySelectorAll('.task-item input[type="checkbox"]').forEach(function(cb) {
+      cb.disabled = isViewOnly;
+      if (isViewOnly) cb.style.opacity = '0.5';
+      else cb.style.opacity = '';
+    });
+    // Disable/enable seed year inputs
+    document.querySelectorAll('.seed-year-input').forEach(function(inp) {
+      inp.disabled = isViewOnly;
+      if (isViewOnly) inp.style.opacity = '0.5';
+      else inp.style.opacity = '';
+    });
+    // Disable/enable "Mark All" buttons
+    document.querySelectorAll('.mark-all-btn').forEach(function(b) {
+      b.disabled = isViewOnly;
+      if (isViewOnly) { b.style.opacity = '0.5'; b.style.pointerEvents = 'none'; }
+      else { b.style.opacity = ''; b.style.pointerEvents = ''; }
+    });
+    // Update nav button
+    if (btn) {
+      if (isViewOnly) {
+        btn.innerHTML = '&#x1F512; View Only';
+        btn.style.background = '#fff3e0';
+        btn.style.borderColor = '#e65100';
+        btn.style.color = '#e65100';
+      } else {
+        btn.innerHTML = '&#x1F513; Worker Mode';
+        btn.style.background = '#e8f5e9';
+        btn.style.borderColor = '#2e7d32';
+        btn.style.color = '#2e7d32';
+      }
+    }
+  }
+
+  window.toggleWorkerMode = function(e) {
+    if (e) e.preventDefault();
+    if (workerMode) {
+      // Log out
+      localStorage.removeItem('storm-creek-worker-pin');
+      setViewOnly(true);
+      return;
+    }
+    var pin = prompt('Enter worker PIN:');
+    if (!pin) return;
+    if (firebaseReady && pinRef) {
+      pinRef.once('value', function(snap) {
+        var correctPin = snap.val() || '1225';
+        if (pin === correctPin) {
+          localStorage.setItem('storm-creek-worker-pin', pin);
+          setViewOnly(false);
+        } else {
+          alert('Incorrect PIN');
+        }
+      });
+    } else {
+      // Offline fallback — check against hardcoded default
+      if (pin === '1225') {
+        localStorage.setItem('storm-creek-worker-pin', pin);
+        setViewOnly(false);
+      } else {
+        alert('Incorrect PIN');
+      }
+    }
+  };
+
+  // On page load: default to view-only, then check saved PIN
+  setViewOnly(true);
+  if (savedPin) {
+    if (firebaseReady && pinRef) {
+      pinRef.once('value', function(snap) {
+        var correctPin = snap.val() || '1225';
+        if (savedPin === correctPin) {
+          setViewOnly(false);
+        } else {
+          localStorage.removeItem('storm-creek-worker-pin');
+        }
+      });
+    } else if (savedPin === '1225') {
+      setViewOnly(false);
+    }
+  }
 
   autoLinkTerms();
 })();
