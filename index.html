@@ -219,7 +219,7 @@ section {
 .garden-map-spatial {
   position: relative;
   width: 100%;
-  padding-bottom: 72%;
+  padding-bottom: 100%;
   /* Tiled grass checkerboard */
   background:
     repeating-conic-gradient(#5a9e3e 0% 25%, #4e8f35 0% 50%) 0 0 / 24px 24px;
@@ -619,6 +619,139 @@ section {
   box-shadow: 2px 2px 0 #5a3e0a;
   white-space: nowrap;
   pointer-events: none;
+}
+
+/* ---- Chicken Coop (bottom-left) ---- */
+.rpg-coop {
+  position: absolute;
+  z-index: 3;
+  left: 2%;
+  bottom: 3%;
+  width: 12%;
+  height: 10%;
+  /* Red barn walls */
+  background:
+    repeating-linear-gradient(90deg, #c0392b 0px, #c0392b 6px, #a93226 6px, #a93226 7px);
+  border: 3px solid #7b241c;
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 #4a1510, -1px -1px 0 #e74c3c inset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Red peaked roof */
+.rpg-coop::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: -3px; right: -3px;
+  height: 14px;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  clip-path: polygon(0 100%, 50% 10%, 100% 100%);
+  z-index: 4;
+}
+
+/* Little door + window */
+.rpg-coop::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 50%;
+  transform: translateX(-50%);
+  width: 22%; height: 30%;
+  background: #5a3e1b;
+  border: 2px solid #3d2510;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  z-index: 4;
+}
+
+.rpg-coop-label {
+  font-family: 'VT323', monospace;
+  font-size: 0.7rem;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  z-index: 5;
+  position: relative;
+  line-height: 1;
+  margin-top: -2px;
+}
+
+.rpg-coop-emoji {
+  font-size: 1rem;
+  z-index: 5;
+  position: relative;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.4));
+}
+
+/* ---- Garden Shed (top-left, narrow tall rectangle) ---- */
+.rpg-shed {
+  position: absolute;
+  z-index: 3;
+  left: 1%;
+  top: 1%;
+  width: 6%;
+  height: 22%;
+  /* Wooden plank walls */
+  background:
+    repeating-linear-gradient(0deg, #b8955e 0px, #b8955e 5px, #a08040 5px, #a08040 6px);
+  border: 3px solid #6a4e0a;
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 #3d2510, -1px -1px 0 #d4b87a inset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Shed roof — flat overhang */
+.rpg-shed::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -5px; right: -5px;
+  height: 8px;
+  background: #7a6840;
+  border: 2px solid #5a4820;
+  border-radius: 2px 2px 0 0;
+  z-index: 4;
+}
+
+/* Shed door */
+.rpg-shed::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 50%;
+  transform: translateX(-50%);
+  width: 35%; height: 18%;
+  background: #5a3e1b;
+  border: 2px solid #3d2510;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  z-index: 4;
+}
+
+.rpg-shed-label {
+  font-family: 'VT323', monospace;
+  font-size: 0.6rem;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  z-index: 5;
+  position: relative;
+  writing-mode: vertical-lr;
+  letter-spacing: 1px;
+}
+
+.rpg-shed-emoji {
+  font-size: 0.9rem;
+  z-index: 5;
+  position: relative;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.4));
 }
 
 /* Bed detail popup — RPG dialog box */
@@ -1835,7 +1968,7 @@ section {
       <!-- === TOP SECTION: Large plots === -->
 
       <!-- Row 1: 13 (blackberries, wide strip top-left) -->
-      <div class="map-bed perennial" onclick="toggleBed(this)" style="left:1%;top:1%;width:36%;height:7%;">
+      <div class="map-bed perennial" onclick="toggleBed(this)" style="left:9%;top:1%;width:28%;height:7%;">
         <div class="mb-emoji">&#x1FAD0;</div>
         <div class="mb-num">13</div>
         <div class="mb-label">Blackberries</div>
@@ -1857,7 +1990,7 @@ section {
       </div>
 
       <!-- Row 2: 14 (dormant, wide, below 13) -->
-      <div class="map-bed ground" onclick="toggleBed(this)" style="left:2%;top:10%;width:36%;height:12%;">
+      <div class="map-bed ground" onclick="toggleBed(this)" style="left:9%;top:10%;width:29%;height:12%;">
         <div class="mb-emoji">&#x1F4A4;</div>
         <div class="mb-num">14</div>
         <div class="mb-label">Dormant</div>
@@ -1868,7 +2001,7 @@ section {
       </div>
 
       <!-- Row 3: 15 (scuppernong, medium strip) -->
-      <div class="map-bed perennial" onclick="toggleBed(this)" style="left:7%;top:26%;width:30%;height:6%;">
+      <div class="map-bed perennial" onclick="toggleBed(this)" style="left:9%;top:26%;width:28%;height:6%;">
         <div class="mb-emoji">&#x1F347;</div>
         <div class="mb-num">15</div>
         <div class="mb-label">Scuppernong Grape</div>
@@ -1891,7 +2024,7 @@ section {
       </div>
 
       <!-- 18 (squash mound + Egyptian onions, right side) -->
-      <div class="map-bed ground" onclick="toggleBed(this)" style="left:56%;top:22%;width:22%;height:9%;">
+      <div class="map-bed ground" onclick="toggleBed(this)" style="left:56%;top:26.5%;width:22%;height:9%;">
         <div class="mb-emoji">&#x1F3C8;</div>
         <div class="mb-num">18</div>
         <div class="mb-label">Squash &amp; Onions</div>
@@ -1903,7 +2036,7 @@ section {
       </div>
 
       <!-- Row 4: 16 (asparagus, wide) -->
-      <div class="map-bed raised" onclick="toggleBed(this)" style="left:5%;top:34%;width:33%;height:12%;">
+      <div class="map-bed raised" onclick="toggleBed(this)" style="left:9%;top:34%;width:29%;height:12%;">
         <div class="mb-emoji">&#x1F96C;</div>
         <div class="mb-num">16</div>
         <div class="mb-label">Asparagus</div>
@@ -1915,7 +2048,7 @@ section {
       </div>
 
       <!-- 19 (blueberries, right side) -->
-      <div class="map-bed perennial" onclick="toggleBed(this)" style="left:58%;top:34%;width:19%;height:9%;">
+      <div class="map-bed perennial" onclick="toggleBed(this)" style="left:58%;top:43%;width:19%;height:9%;">
         <div class="mb-emoji">&#x1FAD0;</div>
         <div class="mb-num">19</div>
         <div class="mb-label">Blueberries</div>
@@ -2119,12 +2252,23 @@ section {
         </div>
       </div>
 
+      <!-- RPG Buildings -->
+      <div class="rpg-coop">
+        <div class="rpg-coop-emoji">&#x1F414;</div>
+        <div class="rpg-coop-label">Chicken Coop</div>
+      </div>
+
+      <div class="rpg-shed">
+        <div class="rpg-shed-emoji">&#x1FA93;</div>
+        <div class="rpg-shed-label">Garden Shed</div>
+      </div>
+
       <!-- RPG decorative elements -->
       <div class="rpg-tree" style="left:84%;top:2%;">&#x1F332;</div>
       <div class="rpg-tree" style="left:82%;top:8%;">&#x1F333;</div>
       <div class="rpg-tree" style="left:92%;top:6%;">&#x1F332;</div>
-      <div class="rpg-tree" style="left:1%;top:85%;">&#x1F333;</div>
-      <div class="rpg-tree" style="left:8%;top:88%;">&#x1F332;</div>
+      <div class="rpg-tree" style="left:16%;top:87%;">&#x1F333;</div>
+      <div class="rpg-tree" style="left:22%;top:90%;">&#x1F332;</div>
       <div class="rpg-tree" style="left:88%;top:85%;">&#x1F333;</div>
       <div class="rpg-tree" style="left:94%;top:78%;">&#x1F332;</div>
       <div class="rpg-deco" style="left:72%;top:48%;">&#x1F33B;</div>
@@ -3218,6 +3362,14 @@ section {
         <li class="task-item"><input type="checkbox" data-task="shop-alyssum-local"><span class="task-text">Sweet Alyssum seeds &mdash; Carpet of Snow</span></li>
         <li class="task-item"><input type="checkbox" data-task="shop-drill-bit"><span class="task-text">5/16" drill bit (for shiitake log plugging)</span></li>
         <li class="task-item"><input type="checkbox" data-task="shop-milky-spore"><span class="task-text">Milky spore granules (for Japanese beetle grubs &mdash; apply Oct)</span></li>
+      </ul>
+      <h5 style="color:#1565c0;margin-top:0.5rem;margin-bottom:0.3rem;font-size:0.82rem;">Bed 10 &mdash; Live Plants (nursery section)</h5>
+      <ul class="task-list" style="list-style:none;">
+        <li class="task-item"><input type="checkbox" data-task="shop-sedum"><span class="task-text">Sedums &mdash; assorted varieties (2-3 pots)</span></li>
+        <li class="task-item"><input type="checkbox" data-task="shop-hens-chicks"><span class="task-text">Hens-and-chicks (Sempervivum) &mdash; 2-3 pots</span></li>
+        <li class="task-item"><input type="checkbox" data-task="shop-creeping-thyme"><span class="task-text">Creeping thyme &mdash; 2-3 starts</span></li>
+        <li class="task-item"><input type="checkbox" data-task="shop-sage"><span class="task-text">Sage &mdash; 1 plant</span></li>
+        <li class="task-item"><input type="checkbox" data-task="shop-lavender"><span class="task-text">Lavender &mdash; 1-2 plants (Munstead or Hidcote)</span></li>
       </ul>
     </div>
 
