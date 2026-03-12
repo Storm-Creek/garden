@@ -3688,6 +3688,18 @@ section {
       if (changed) el.innerHTML = html;
     });
   }
+  // Move garden map after the current month's calendar card
+  (function moveMapAfterCurrentMonth() {
+    var mapSection = document.getElementById('map');
+    var now = new Date();
+    var currentMonth = now.getMonth() + 1; // 1-12
+    var currentCard = document.querySelector('.month-card[data-month="' + currentMonth + '"]');
+    if (mapSection && currentCard) {
+      // Insert map section right after the current month's card
+      currentCard.parentNode.insertBefore(mapSection, currentCard.nextSibling);
+    }
+  })();
+
   autoLinkTerms();
 })();
 </script>
