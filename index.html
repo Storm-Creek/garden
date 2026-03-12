@@ -4,6 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Storm Creek Garden 2026</title>
+<!-- Firebase SDK (free tier) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+// === FIREBASE CONFIG — paste your config from Firebase Console ===
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://PASTE_YOUR_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "PASTE_YOUR_PROJECT",
+  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "PASTE_YOUR_APP_ID"
+};
+
+let firebaseReady = false;
+let dbRef = null;
+let seedDbRef = null;
+
+try {
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  dbRef = db.ref('garden2026/tasks');
+  seedDbRef = db.ref('garden2026/seeds');
+  firebaseReady = !firebaseConfig.apiKey.startsWith('PASTE');
+} catch(e) {
+  console.log('Firebase not configured, using localStorage only');
+}
+</script>
 <style>
 :root {
   --sage: #87A96B;
@@ -2884,26 +2913,99 @@ section {
 (function() {
   const STORAGE_KEY = 'storm-creek-garden-2026';
 
-  function loadState() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-    } catch { return {}; }
+  // --- Sync layer: Firebase primary, localStorage offline fallback ---
+  function loadStateLocal() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch { return {}; }
   }
 
-  function saveState(state) {
+  function saveStateLocal(state) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
-  // Initialize checkboxes
-  const state = loadState();
-  document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
-    const key = cb.dataset.task;
-    if (state[key]) {
-      cb.checked = true;
-      cb.closest('.task-item').classList.add('done');
+  function saveState(state) {
+    saveStateLocal(state);
+    if (firebaseReady && dbRef) {
+      dbRef.set(state).catch(function(e) { console.warn('Firebase save failed:', e); });
     }
+  }
+
+  function loadState() {
+    return loadStateLocal();
+  }
+
+  // Apply state to all checkboxes in the DOM
+  function applyState(state) {
+    document.querySelectorAll('.task-item input[type="checkbox"]').forEach(function(cb) {
+      var key = cb.dataset.task;
+      if (!key) return;
+      var checked = !!state[key];
+      if (cb.checked !== checked) {
+        cb.checked = checked;
+        cb.closest('.task-item').classList.toggle('done', checked);
+      }
+    });
+    document.querySelectorAll('.month-card').forEach(updateProgress);
+    // Also update amendment/feeding sections
+    document.querySelectorAll('.fert-card').forEach(function(card) {
+      var checks = card.querySelectorAll('.task-item input[type="checkbox"]');
+      var done = Array.from(checks).filter(function(c) { return c.checked; }).length;
+      var total = checks.length;
+      var pct = total ? Math.round(done / total * 100) : 0;
+      var prog = card.querySelector('.progress-fill');
+      var progText = card.querySelector('.progress-text');
+      if (prog) prog.style.width = pct + '%';
+      if (progText) progText.textContent = done + ' / ' + total;
+    });
+  }
+
+  // Initialize from localStorage first (instant)
+  var state = loadStateLocal();
+  applyState(state);
+
+  // Then listen for Firebase real-time updates (syncs across devices)
+  if (firebaseReady && dbRef) {
+    dbRef.on('value', function(snapshot) {
+      var fbState = snapshot.val() || {};
+      saveStateLocal(fbState); // cache locally for offline
+      applyState(fbState);
+    });
+    // Push any localStorage state to Firebase on first load (merge)
+    var localState = loadStateLocal();
+    if (Object.keys(localState).length > 0) {
+      dbRef.once('value', function(snapshot) {
+        var fbState = snapshot.val() || {};
+        // Merge: local checked items win (you checked it offline)
+        var merged = Object.assign({}, fbState, localState);
+        if (JSON.stringify(merged) !== JSON.stringify(fbState)) {
+          dbRef.set(merged);
+        }
+      });
+    }
+  }
+
+  // Sync status indicator
+  if (firebaseReady) {
+    var dot = document.createElement('div');
+    dot.id = 'sync-status';
+    dot.style.cssText = 'position:fixed;bottom:10px;right:10px;background:#4caf50;color:#fff;padding:4px 10px;border-radius:12px;font-size:0.7rem;z-index:999;opacity:0.8;';
+    dot.textContent = 'Synced';
+    document.body.appendChild(dot);
+    firebase.database().ref('.info/connected').on('value', function(snap) {
+      if (snap.val() === true) {
+        dot.textContent = 'Synced';
+        dot.style.background = '#4caf50';
+      } else {
+        dot.textContent = 'Offline';
+        dot.style.background = '#ff9800';
+      }
+    });
+  }
+
+  // Checkbox change handler
+  document.querySelectorAll('.task-item input[type="checkbox"]').forEach(function(cb) {
     cb.addEventListener('change', function() {
-      const s = loadState();
+      var s = loadState();
       s[this.dataset.task] = this.checked;
       saveState(s);
       this.closest('.task-item').classList.toggle('done', this.checked);
@@ -3009,13 +3111,36 @@ section {
   // ===== SEED SOURCING ALERTS =====
   const SEED_STORAGE_KEY = 'storm-creek-seeds-2026';
 
-  function loadSeedState() {
+  function loadSeedStateLocal() {
     try { return JSON.parse(localStorage.getItem(SEED_STORAGE_KEY)) || {}; }
     catch { return {}; }
   }
 
-  function saveSeedState(s) {
+  function saveSeedStateLocal(s) {
     localStorage.setItem(SEED_STORAGE_KEY, JSON.stringify(s));
+  }
+
+  function loadSeedState() { return loadSeedStateLocal(); }
+
+  function saveSeedState(s) {
+    saveSeedStateLocal(s);
+    if (firebaseReady && seedDbRef) {
+      seedDbRef.set(s).catch(function(e) { console.warn('Firebase seed save failed:', e); });
+    }
+  }
+
+  // Sync seeds from Firebase
+  if (firebaseReady && seedDbRef) {
+    seedDbRef.on('value', function(snapshot) {
+      var fbSeeds = snapshot.val() || {};
+      saveSeedStateLocal(fbSeeds);
+      // Update seed year inputs from Firebase
+      document.querySelectorAll('.seed-year-input').forEach(function(input) {
+        var key = input.dataset.seed;
+        if (fbSeeds[key] && input.value !== fbSeeds[key]) input.value = fbSeeds[key];
+      });
+      updateSeedAlerts();
+    });
   }
 
   // Seed viability (max years from purchase before you should buy new)
