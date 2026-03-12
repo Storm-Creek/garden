@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storm Creek Garden &mdash; Knowledge Base</title>
+<style>
+:root {
+  --sage: #87A96B;
+  --sage-light: #a8c78e;
+  --sage-pale: #d4e4c4;
+  --cream: #FFFDD0;
+  --soil: #8B6914;
+  --earth: #5a3e1b;
+  --white: #fff;
+  --text: #2d2d2d;
+  --text-light: #555;
+  --shadow: rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', 'Cantarell', system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--sage-pale) 50%, #ffd6df 100%);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--sage) 0%, var(--sage-light) 100%);
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+  border-bottom: 4px solid #c4a44a;
+}
+
+.header h1 { font-size: 2rem; color: var(--white); text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+.header .subtitle { color: var(--cream); font-size: 0.95rem; margin-top: 0.2rem; }
+
+.back-link {
+  display: inline-block;
+  margin: 0.8rem 1rem;
+  color: var(--sage);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.back-link:hover { text-decoration: underline; }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+.topic {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 2px 12px var(--shadow);
+  border: 1px solid var(--sage-pale);
+  scroll-margin-top: 60px;
+}
+
+.topic h2 {
+  color: var(--sage);
+  font-size: 1.3rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 2px solid var(--sage-pale);
+  padding-bottom: 0.3rem;
+}
+
+.topic h3 {
+  color: var(--earth);
+  font-size: 1rem;
+  margin: 0.8rem 0 0.4rem;
+}
+
+.topic p, .topic li {
+  font-size: 0.88rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.topic ul, .topic ol {
+  padding-left: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.recipe-box {
+  background: #f0f7e6;
+  border-radius: 10px;
+  padding: 0.8rem;
+  margin: 0.6rem 0;
+  font-size: 0.85rem;
+  border-left: 4px solid var(--sage);
+}
+
+.warning-box {
+  background: #fff3e0;
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  margin: 0.6rem 0;
+  font-size: 0.82rem;
+  border-left: 4px solid #e65100;
+  color: #c62828;
+}
+
+.video-link {
+  display: inline-block;
+  background: #c62828;
+  color: white;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0.4rem 0.3rem 0.4rem 0;
+}
+.video-link:hover { background: #a51c1c; }
+
+.source-link {
+  display: inline-block;
+  background: var(--sage);
+  color: white;
+  text-decoration: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  margin: 0.2rem 0.2rem 0.2rem 0;
+}
+.source-link:hover { background: #6b8c52; }
+
+/* TOC */
+.toc {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 2px 12px var(--shadow);
+  border: 1px solid var(--sage-pale);
+}
+.toc h3 { color: var(--sage); margin-bottom: 0.5rem; }
+.toc ul { list-style: none; padding: 0; columns: 2; }
+.toc li { margin-bottom: 0.3rem; }
+.toc a { color: var(--earth); text-decoration: none; font-size: 0.85rem; }
+.toc a:hover { text-decoration: underline; color: var(--sage); }
+
+@media (max-width: 600px) {
+  .toc ul { columns: 1; }
+  .topic { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Storm Creek Garden Knowledge Base</h1>
+  <div class="subtitle">How-to guides for every technique in the garden planner</div>
+</div>
+
+<a href="index.html" class="back-link">&larr; Back to Garden Planner</a>
+
+<main>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h3>Quick Links</h3>
+  <ul>
+    <li><a href="#neem-oil">Neem Oil Spray</a></li>
+    <li><a href="#cardboard-trap">Cardboard Trap (Squash Bugs)</a></li>
+    <li><a href="#manure-tea">Chicken Manure Tea</a></li>
+    <li><a href="#milky-spore">Milky Spore (Japanese Beetles)</a></li>
+    <li><a href="#blue-hubbard">Blue Hubbard Trap Crop</a></li>
+    <li><a href="#side-dress">Side-Dressing</a></li>
+    <li><a href="#diatomaceous-earth">Diatomaceous Earth</a></li>
+    <li><a href="#baking-soda-fungicide">Baking Soda Fungicide</a></li>
+    <li><a href="#insecticidal-soap">Insecticidal Soap</a></li>
+    <li><a href="#garlic-pepper-spray">Garlic &amp; Hot Pepper Spray</a></li>
+    <li><a href="#beer-traps">Beer Traps for Slugs</a></li>
+    <li><a href="#bt">BT (Bacillus thuringiensis)</a></li>
+    <li><a href="#pine-needle-mulch">Pine Needle Mulch</a></li>
+    <li><a href="#wood-ashes">Wood Ashes</a></li>
+    <li><a href="#succession-planting">Succession Planting</a></li>
+    <li><a href="#companion-planting">Companion Planting</a></li>
+    <li><a href="#shiitake-logs">Shiitake Log Inoculation</a></li>
+    <li><a href="#wine-caps">Wine Cap Mushrooms</a></li>
+  </ul>
+</div>
+
+<!-- NEEM OIL -->
+<div class="topic" id="neem-oil">
+  <h2>Neem Oil Spray</h2>
+  <p><strong>What it does:</strong> Kills and repels aphids, whiteflies, Japanese beetles, squash bugs, and fungal diseases (mildew, blight). Works by disrupting insect feeding and reproduction.</p>
+
+  <h3>Recipe (1 gallon)</h3>
+  <div class="recipe-box">
+    <strong>Ingredients:</strong><br>
+    &bull; 1 gallon warm water<br>
+    &bull; 2 tablespoons cold-pressed neem oil<br>
+    &bull; 1 teaspoon liquid dish soap (emulsifier &mdash; helps oil mix with water)<br><br>
+    <strong>Steps:</strong><br>
+    1. Combine soap + warm water first in your pump sprayer. Shake.<br>
+    2. Add neem oil. Shake vigorously for 30 seconds.<br>
+    3. Use within 8 hours &mdash; neem breaks down fast after mixing.<br>
+    4. Re-shake every few minutes while spraying (oil separates).
+  </div>
+
+  <h3>How to Apply</h3>
+  <ol>
+    <li>Spray in the <strong>evening</strong> after bees stop foraging &mdash; neem degrades in sunlight and can harm pollinators if wet.</li>
+    <li>Coat <strong>both sides of every leaf</strong> &mdash; top AND bottom. Pests hide underneath.</li>
+    <li>Spray until leaves are dripping but not pooling on the ground.</li>
+    <li>Repeat every <strong>7-10 days</strong> for active infestations.</li>
+    <li>Reapply after any rain.</li>
+  </ol>
+
+  <div class="warning-box">
+    <strong>Don't:</strong> Spray in direct midday sun (burns leaves). Don't spray open flowers when bees are active. Don't use dish soap with degreasers (Dawn Ultra) &mdash; use basic Dawn Original or castile soap.
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=how+to+mix+neem+oil+spray+garden+pests" target="_blank" class="video-link">&#x25B6; YouTube: How to Mix Neem Oil</a>
+  <a href="https://www.epicgardening.com/neem-oil/" target="_blank" class="source-link">Epic Gardening Guide</a>
+  <a href="https://homesteadandchill.com/emulsify-neem-oil-spray/" target="_blank" class="source-link">Homestead &amp; Chill Guide</a>
+</div>
+
+<!-- CARDBOARD TRAP -->
+<div class="topic" id="cardboard-trap">
+  <h2>Cardboard Trap for Squash Bugs</h2>
+  <p><strong>What it does:</strong> Squash bugs naturally seek shelter under flat objects at night. You lay cardboard near your squash plants, and they crawl under it to hide. Next morning, you flip it and kill them.</p>
+
+  <h3>How to Do It</h3>
+  <div class="recipe-box">
+    <strong>Materials:</strong> Flat cardboard pieces, old shingles, or boards (about 1ft x 1ft).<br><br>
+    <strong>Steps:</strong><br>
+    1. In the evening, lay flat pieces of cardboard or boards on the soil <strong>right next to your squash plants</strong>.<br>
+    2. Next morning (early!), go out and <strong>flip each piece over</strong>.<br>
+    3. You'll find adult squash bugs and nymphs clustered underneath.<br>
+    4. <strong>Squish them</strong> between two hard surfaces, or drop into a bucket of soapy water.<br>
+    5. Repeat <strong>every night/morning</strong> during squash bug season (June&ndash;August).<br>
+  </div>
+
+  <h3>Why This Works</h3>
+  <p>Squash bugs are nocturnal and seek dark, moist shelter at night. The cardboard mimics their preferred hiding spots. This is chemical-free, costs nothing, and catches bugs that sprays miss.</p>
+
+  <h3>Pro Tips</h3>
+  <ul>
+    <li>Use <strong>stiff corrugated cardboard</strong> &mdash; it holds its shape and stays flat.</li>
+    <li>Also check the <strong>base of squash stems</strong> and <strong>undersides of leaves</strong> for copper-colored egg clusters. Scrape them off with tape or a butter knife.</li>
+    <li>Combine with <a href="#blue-hubbard">Blue Hubbard trap crop</a> and <a href="#neem-oil">neem oil</a> for best results.</li>
+  </ul>
+
+  <a href="https://www.youtube.com/results?search_query=cardboard+trap+squash+bugs+organic+garden" target="_blank" class="video-link">&#x25B6; YouTube: Squash Bug Traps</a>
+  <a href="https://getbusygardening.com/control-squash-bugs-organically/" target="_blank" class="source-link">Get Busy Gardening</a>
+  <a href="https://simplifylivelove.com/preventing-squash-bugs/" target="_blank" class="source-link">11 Ways to Prevent Squash Bugs</a>
+</div>
+
+<!-- CHICKEN MANURE TEA -->
+<div class="topic" id="manure-tea">
+  <h2>Chicken Manure Tea</h2>
+  <p><strong>What it does:</strong> Liquid fertilizer made by steeping composted chicken manure in water. High in nitrogen, phosphorus, and potassium. Feeds heavy-feeding plants like tomatoes, peppers, squash, and melons.</p>
+
+  <h3>How to Make It</h3>
+  <div class="recipe-box">
+    <strong>Materials:</strong> 5-gallon bucket, composted chicken manure, old pillowcase or burlap sack, string.<br><br>
+    <strong>Steps:</strong><br>
+    1. Fill a pillowcase or burlap sack about <strong>1/3 full</strong> with composted chicken poop.<br>
+    2. Tie the top shut with string &mdash; this is your "tea bag."<br>
+    3. Drop it into a 5-gallon bucket and fill with water (about 2/3 water, 1/3 manure ratio).<br>
+    4. Set in a sunny spot, <strong>uncovered</strong>, for 5&ndash;7 days.<br>
+    5. <strong>Dunk the bag up and down</strong> a few times each day to aerate (prevents bad bacteria).<br>
+    6. When it's dark brown like tea, it's ready.<br>
+    7. <strong>Dilute:</strong> Mix 1 part tea to 4 parts water before applying.
+  </div>
+
+  <h3>How to Apply</h3>
+  <ul>
+    <li>Pour diluted tea at the <strong>base of plants</strong> &mdash; don't splash on leaves you'll eat.</li>
+    <li>Apply every <strong>2&ndash;3 weeks</strong> during active growing season.</li>
+    <li>Best for: tomatoes, peppers, squash, melons, corn, sunflowers.</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>Safety:</strong> Even composted chicken manure contains some pathogens (Salmonella, E. coli). Don't apply to root crops (carrots, beets, potatoes) or leafy greens you eat raw. Wash hands after handling. The composting + dilution reduces risk, but play it safe.
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=how+to+make+chicken+manure+tea+fertilizer+garden" target="_blank" class="video-link">&#x25B6; YouTube: Chicken Manure Tea</a>
+  <a href="https://www.fresheggsdaily.blog/2014/03/how-to-brew-chicken-poop-or-horse.html" target="_blank" class="source-link">Fresh Eggs Daily Guide</a>
+  <a href="https://blog.meyerhatchery.com/2025/09/how-to-make-compost-tea-from-chicken-manure/" target="_blank" class="source-link">Meyer Hatchery Guide</a>
+</div>
+
+<!-- MILKY SPORE -->
+<div class="topic" id="milky-spore">
+  <h2>Milky Spore (Japanese Beetle Grub Control)</h2>
+  <p><strong>What it does:</strong> A natural bacteria (Bacillus popilliae) that kills Japanese beetle grubs in the soil. Grubs eat the spores, die, and release billions more spores. One application lasts <strong>10&ndash;20 years</strong>.</p>
+
+  <h3>How to Apply</h3>
+  <div class="recipe-box">
+    <strong>Materials:</strong> Milky Spore powder (10 oz bag covers ~2,500 sq ft). Available at garden centers or online (~$35).<br><br>
+    <strong>Steps:</strong><br>
+    1. Apply in <strong>fall</strong> (September&ndash;October) when grubs are actively feeding near the surface.<br>
+    2. Drop <strong>1 teaspoon</strong> of powder every <strong>4 feet</strong> in a grid pattern across the area.<br>
+    3. Water lightly after application (helps spores soak into soil).<br>
+    4. That's it. The grubs do the rest &mdash; they eat the spores, die, and each dead grub releases ~3 billion new spores.
+  </div>
+
+  <h3>Important Notes</h3>
+  <ul>
+    <li><strong>Only works on Japanese beetle grubs</strong> &mdash; won't affect other grub species.</li>
+    <li>Takes <strong>1&ndash;3 years</strong> to fully establish in the soil, then lasts 10&ndash;20+ years.</li>
+    <li>Apply to the <strong>ground around Bed 11</strong> (Catawba grapes) &mdash; that's where the beetles were worst in 2025.</li>
+    <li>Safe for pets, kids, birds, earthworms, and beneficial insects.</li>
+    <li>Combine with <a href="#neem-oil">neem oil spray</a> on the vines and hand-picking adults until the milky spore establishes.</li>
+  </ul>
+
+  <a href="https://www.youtube.com/results?search_query=milky+spore+application+Japanese+beetle+grub+control" target="_blank" class="video-link">&#x25B6; YouTube: How to Apply Milky Spore</a>
+  <a href="https://lawnlove.com/blog/milky-spore-for-grub-control/" target="_blank" class="source-link">LawnLove Guide</a>
+</div>
+
+<!-- BLUE HUBBARD TRAP CROP -->
+<div class="topic" id="blue-hubbard">
+  <h2>Blue Hubbard Trap Crop</h2>
+  <p><strong>What it does:</strong> Squash bugs are <strong>more attracted to Blue Hubbard squash</strong> than any other variety. You plant 1&ndash;2 Blue Hubbard plants at the edge of your squash area, and the bugs flock to them instead of your good squash. Then you kill the bugs on the trap plant.</p>
+
+  <h3>How to Set It Up</h3>
+  <div class="recipe-box">
+    <strong>Steps:</strong><br>
+    1. Plant <strong>1&ndash;2 Blue Hubbard squash</strong> on the edge of Bed 18-1, away from your main squash.<br>
+    2. Plant them <strong>2 weeks before</strong> your main squash so they're bigger and more attractive to bugs.<br>
+    3. The squash bugs will preferentially go to the Blue Hubbard.<br>
+    4. <strong>Check the trap plants daily</strong> &mdash; look under leaves for egg clusters (copper-colored) and adults.<br>
+    5. Hand-pick adults into soapy water. Scrape off egg clusters.<br>
+    6. Optionally spray the trap plant with <a href="#neem-oil">neem oil</a> to kill concentrated bugs.
+  </div>
+
+  <h3>Why This Works</h3>
+  <p>University of Missouri research confirmed Blue Hubbard is the most attractive variety to squash bugs and squash vine borers. By concentrating the pests on a sacrificial plant, your main crop stays cleaner. Combined with <a href="#cardboard-trap">cardboard traps</a> and neem oil, this is a highly effective organic strategy.</p>
+
+  <a href="https://www.youtube.com/results?search_query=blue+hubbard+squash+trap+crop+squash+bugs" target="_blank" class="video-link">&#x25B6; YouTube: Blue Hubbard Trap Crop</a>
+  <a href="https://ipm.missouri.edu/MEG/2017/3/Trap_cropping/" target="_blank" class="source-link">Univ. of Missouri Research</a>
+</div>
+
+<!-- SIDE-DRESSING -->
+<div class="topic" id="side-dress">
+  <h2>Side-Dressing</h2>
+  <p><strong>What it does:</strong> Adding fertilizer alongside growing plants during the season (not before planting). Gives heavy feeders a mid-season nutrient boost when they need it most &mdash; usually when fruiting starts.</p>
+
+  <h3>How to Do It</h3>
+  <div class="recipe-box">
+    <strong>Steps:</strong><br>
+    1. Make a <strong>shallow trench</strong> (2&ndash;3 inches deep) in the soil about <strong>4&ndash;6 inches away</strong> from the plant stem. Go along the row or in a ring around the plant.<br>
+    2. Sprinkle your fertilizer into the trench:<br>
+    &nbsp;&nbsp;&bull; <strong>Composted chicken poop:</strong> 1&ndash;2 handfuls per plant<br>
+    &nbsp;&nbsp;&bull; <strong>10-10-10:</strong> 1 tablespoon per plant<br>
+    &nbsp;&nbsp;&bull; <strong>Compost:</strong> a few scoops per plant<br>
+    3. Cover the trench back over with soil.<br>
+    4. Water well so nutrients soak into the root zone.
+  </div>
+
+  <h3>When to Side-Dress</h3>
+  <ul>
+    <li><strong>Tomatoes &amp; peppers:</strong> When first fruits set, then every 3&ndash;4 weeks</li>
+    <li><strong>Squash &amp; melons:</strong> When vines start running</li>
+    <li><strong>Corn:</strong> When knee-high, then again at tasseling</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>Don't</strong> pile fertilizer against the plant stem &mdash; it can burn. Keep it 4&ndash;6 inches away in the root zone.
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=how+to+side+dress+vegetables+fertilizer+garden" target="_blank" class="video-link">&#x25B6; YouTube: Side-Dressing Vegetables</a>
+</div>
+
+<!-- DIATOMACEOUS EARTH -->
+<div class="topic" id="diatomaceous-earth">
+  <h2>Diatomaceous Earth (DE)</h2>
+  <p><strong>What it does:</strong> A powder made from fossilized algae. The microscopic sharp edges cut through insect exoskeletons, causing them to dehydrate and die. Works on slugs, ants, earwigs, flea beetles, and other crawling insects.</p>
+
+  <h3>How to Apply</h3>
+  <div class="recipe-box">
+    <strong>Materials:</strong> Food-grade diatomaceous earth (NOT pool-grade!). About $12 for a 4 lb bag.<br><br>
+    <strong>Steps:</strong><br>
+    1. <strong>Dust lightly</strong> around the base of plants in a ring.<br>
+    2. Dust on soil surface where slugs/crawlers travel.<br>
+    3. Can also dust directly on leaves (for flea beetles), but only on non-flowering parts.<br>
+    4. <strong>Reapply after rain or watering</strong> &mdash; DE only works when dry.
+  </div>
+
+  <div class="warning-box">
+    <strong>Wear a dust mask</strong> when applying &mdash; fine particles irritate lungs if inhaled. Don't apply on flowers (can harm bees). Harmless to earthworms (their slime coating protects them).
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=how+to+use+diatomaceous+earth+garden+pest+control" target="_blank" class="video-link">&#x25B6; YouTube: Using DE in the Garden</a>
+</div>
+
+<!-- BAKING SODA FUNGICIDE -->
+<div class="topic" id="baking-soda-fungicide">
+  <h2>Baking Soda Fungicide Spray</h2>
+  <p><strong>What it does:</strong> Prevents powdery mildew, early blight, black spot, and leaf spot. Works by making leaf surfaces too alkaline for fungal spores to germinate. <strong>Preventive, not curative</strong> &mdash; apply before disease shows up.</p>
+
+  <h3>Recipe (1 gallon)</h3>
+  <div class="recipe-box">
+    <strong>Ingredients:</strong><br>
+    &bull; 1 gallon water<br>
+    &bull; 1 tablespoon baking soda<br>
+    &bull; 1 tablespoon vegetable oil or neem oil<br>
+    &bull; 1/2 teaspoon liquid dish soap<br><br>
+    <strong>Mix:</strong> Dissolve baking soda in water, then add oil and soap. Shake well.
+  </div>
+
+  <h3>How to Apply</h3>
+  <ul>
+    <li>Spray on leaves <strong>weekly</strong> as a preventive &mdash; start before you see any disease.</li>
+    <li>Best for: tomatoes, cucumbers, squash, grapes.</li>
+    <li>Won't cure existing fungus, but slows its spread.</li>
+    <li>Combine with good air circulation and morning watering at root level (never wet the leaves).</li>
+  </ul>
+
+  <a href="https://www.youtube.com/results?search_query=baking+soda+fungicide+spray+garden+tomatoes+mildew" target="_blank" class="video-link">&#x25B6; YouTube: Baking Soda Fungicide</a>
+</div>
+
+<!-- INSECTICIDAL SOAP -->
+<div class="topic" id="insecticidal-soap">
+  <h2>Insecticidal Soap Spray</h2>
+  <p><strong>What it does:</strong> Suffocates soft-bodied insects on contact &mdash; aphids, whiteflies, spider mites, mealybugs. Won't harm hard-shelled beetles. Must hit the bug directly to work.</p>
+
+  <h3>Recipe (1 quart)</h3>
+  <div class="recipe-box">
+    <strong>Ingredients:</strong><br>
+    &bull; 1 quart water<br>
+    &bull; 1 tablespoon pure castile soap (Dr. Bronner's unscented)<br><br>
+    <strong>That's it.</strong> Shake gently. Do NOT use dish soap with degreasers or antibacterial.
+  </div>
+
+  <h3>How to Apply</h3>
+  <ul>
+    <li>Spray <strong>directly on the bugs</strong> &mdash; must make contact to work.</li>
+    <li>Check undersides of leaves where aphids cluster.</li>
+    <li>Reapply every <strong>3&ndash;5 days</strong> until pests are gone.</li>
+    <li>Test on one leaf first &mdash; some plants are sensitive to soap.</li>
+  </ul>
+
+  <a href="https://www.youtube.com/results?search_query=insecticidal+soap+spray+homemade+garden+aphids" target="_blank" class="video-link">&#x25B6; YouTube: Making Insecticidal Soap</a>
+</div>
+
+<!-- GARLIC PEPPER SPRAY -->
+<div class="topic" id="garlic-pepper-spray">
+  <h2>Garlic &amp; Hot Pepper Spray</h2>
+  <p><strong>What it does:</strong> Repels aphids, cabbage worms, flea beetles, Japanese beetles, deer, and rabbits. Works by smell and taste &mdash; pests hate it.</p>
+
+  <h3>Recipe (1 gallon)</h3>
+  <div class="recipe-box">
+    <strong>Ingredients:</strong><br>
+    &bull; 1 gallon water<br>
+    &bull; 1 whole head garlic, minced or blended<br>
+    &bull; 3&ndash;4 hot peppers (cayenne, habanero) OR 2 tbsp cayenne powder<br>
+    &bull; 1 tablespoon liquid dish soap<br>
+    &bull; 1 tablespoon vegetable oil (sticking agent)<br><br>
+    <strong>Steps:</strong><br>
+    1. Blend garlic + peppers in 2 cups water.<br>
+    2. Let steep overnight (stronger).<br>
+    3. Strain through cheesecloth into sprayer.<br>
+    4. Add soap + oil + remaining water.<br>
+    5. Shake well before each use.
+  </div>
+
+  <div class="warning-box">
+    <strong>Wear gloves</strong> when handling hot peppers. Don't touch your eyes. Wash harvested produce before eating.
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=garlic+hot+pepper+spray+garden+pest+control+organic" target="_blank" class="video-link">&#x25B6; YouTube: Garlic Pepper Spray</a>
+</div>
+
+<!-- BEER TRAPS -->
+<div class="topic" id="beer-traps">
+  <h2>Beer Traps for Slugs</h2>
+  <p><strong>What it does:</strong> Slugs are attracted to the yeast in beer. They crawl in, fall in, and drown. Simple, cheap, effective.</p>
+
+  <h3>How to Set It Up</h3>
+  <div class="recipe-box">
+    <strong>Materials:</strong> Shallow dish or yogurt container, cheap beer (slugs aren't picky).<br><br>
+    <strong>Steps:</strong><br>
+    1. Bury a shallow container so the <strong>rim is level with the soil surface</strong>.<br>
+    2. Fill with beer about <strong>1 inch deep</strong>.<br>
+    3. Place near plants slugs are eating (Beds 3, 4, 6).<br>
+    4. Check each morning &mdash; dump dead slugs and refill.<br>
+    5. Replace beer every <strong>2&ndash;3 days</strong> (it goes flat and loses attraction).
+  </div>
+
+  <p><strong>Pro tip:</strong> Non-alcoholic beer works too &mdash; it's the yeast they want. Combine with <a href="#diatomaceous-earth">DE rings</a> around plant bases for double protection.</p>
+
+  <a href="https://www.youtube.com/results?search_query=beer+trap+slugs+garden+how+to" target="_blank" class="video-link">&#x25B6; YouTube: Beer Traps for Slugs</a>
+</div>
+
+<!-- BT -->
+<div class="topic" id="bt">
+  <h2>BT (Bacillus thuringiensis)</h2>
+  <p><strong>What it is:</strong> A naturally occurring soil bacteria that kills caterpillars (cabbage worms, hornworms, loopers) when they eat it. Completely safe for humans, pets, bees, and beneficial insects. It ONLY affects caterpillar-type larvae.</p>
+
+  <h3>How to Use</h3>
+  <div class="recipe-box">
+    <strong>Product:</strong> Buy BT spray (brand names: Thuricide, DiPel, Monterey BT). About $10&ndash;15.<br><br>
+    <strong>Steps:</strong><br>
+    1. Mix according to label directions (usually 1&ndash;2 tbsp per gallon).<br>
+    2. Spray on <strong>both sides of leaves</strong> where caterpillars are feeding.<br>
+    3. Caterpillars eat the treated leaves, stop feeding within hours, and die in 1&ndash;3 days.<br>
+    4. Reapply every <strong>5&ndash;7 days</strong> and after rain.<br>
+    5. Apply in <strong>evening</strong> &mdash; UV light breaks BT down.
+  </div>
+
+  <h3>When to Use</h3>
+  <ul>
+    <li><strong>Cabbage worms</strong> on brassicas (kale, broccoli, cabbage)</li>
+    <li><strong>Tomato hornworms</strong> on Bed 1</li>
+    <li>Use as backup if <a href="#garlic-pepper-spray">garlic pepper spray</a> isn't enough</li>
+  </ul>
+
+  <a href="https://www.youtube.com/results?search_query=BT+bacillus+thuringiensis+organic+garden+caterpillar+cabbage+worm" target="_blank" class="video-link">&#x25B6; YouTube: How to Use BT</a>
+</div>
+
+<!-- PINE NEEDLE MULCH -->
+<div class="topic" id="pine-needle-mulch">
+  <h2>Pine Needle Mulch (for Blueberries)</h2>
+  <p><strong>What it does:</strong> Pine needles slowly acidify the soil as they decompose. Blueberries need acidic soil (pH 4.5&ndash;5.5) to thrive. Pine needle mulch also suppresses weeds and retains moisture.</p>
+
+  <h3>How to Apply</h3>
+  <div class="recipe-box">
+    <strong>Steps:</strong><br>
+    1. Spread a <strong>2&ndash;4 inch layer</strong> of pine needles around each blueberry bush.<br>
+    2. Keep needles <strong>a few inches away from the main stem</strong>.<br>
+    3. Extend mulch out to the <strong>drip line</strong> (edge of the branches).<br>
+    4. <strong>Top up annually</strong> &mdash; needles decompose and thin out over time.<br>
+    5. You can collect pine needles from under any pine tree &mdash; they're free.
+  </div>
+
+  <div class="warning-box">
+    <strong>ONLY for acid-loving plants</strong> (blueberries, azaleas, rhododendrons). Do NOT use pine needles where you've applied wood ashes &mdash; they work against each other.
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=pine+needle+mulch+blueberries+acidify+soil" target="_blank" class="video-link">&#x25B6; YouTube: Pine Needle Mulch</a>
+</div>
+
+<!-- WOOD ASHES -->
+<div class="topic" id="wood-ashes">
+  <h2>Wood Ashes in the Garden</h2>
+  <p><strong>What it does:</strong> Raises soil pH (makes less acidic), adds potassium (K) and calcium (Ca). Great for tomatoes, peppers, onions, asparagus. Think of it as a natural lime + potash combo.</p>
+
+  <h3>How to Apply</h3>
+  <div class="recipe-box">
+    <strong>Rate:</strong> About 1&ndash;2 lbs per 4x12 bed (light dusting).<br><br>
+    <strong>Steps:</strong><br>
+    1. <strong>Scatter evenly</strong> across the bed surface &mdash; don't pile it up.<br>
+    2. <strong>Rake into the top 2&ndash;3 inches</strong> of soil.<br>
+    3. Apply in <strong>spring before planting</strong> or <strong>fall</strong> to let it mellow.<br>
+    4. Don't apply more than once per season &mdash; it's easy to over-lime.
+  </div>
+
+  <h3>What Ashes to Use</h3>
+  <ul>
+    <li><strong>Good:</strong> Hardwood ashes (oak, maple, hickory) &mdash; higher in potassium.</li>
+    <li><strong>OK:</strong> Softwood ashes (pine) &mdash; less potassium but still useful.</li>
+    <li><strong>Never:</strong> Ashes from charcoal briquettes, treated/painted wood, or cardboard with ink.</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>NEVER near blueberries (Bed 19)!</strong> Ashes raise pH, blueberries need acid soil. Also avoid near blackberries (Bed 13) which prefer slightly acidic.
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=how+to+use+wood+ashes+garden+fertilizer" target="_blank" class="video-link">&#x25B6; YouTube: Wood Ashes in the Garden</a>
+</div>
+
+<!-- SUCCESSION PLANTING -->
+<div class="topic" id="succession-planting">
+  <h2>Succession Planting</h2>
+  <p><strong>What it is:</strong> Instead of planting all your seeds at once (and getting one big harvest that overwhelms you), you plant small batches every 2&ndash;3 weeks. This gives you a <strong>steady, continuous harvest</strong> all season long.</p>
+
+  <h3>How to Do It</h3>
+  <div class="recipe-box">
+    <strong>Example &mdash; Arugula (Bed 4):</strong><br>
+    &bull; March 15: Sow first batch (1/4 of the bed)<br>
+    &bull; April 1: Sow second batch (next 1/4)<br>
+    &bull; April 15: Sow third batch<br>
+    &bull; May 1: Sow fourth batch<br>
+    &bull; (Pause for summer heat &mdash; arugula bolts)<br>
+    &bull; August 15: Resume sowing for fall<br><br>
+    Each batch is ready ~3 weeks after the previous one, so you always have fresh arugula.
+  </div>
+
+  <h3>Best Crops for Succession</h3>
+  <ul>
+    <li><strong>Every 2&ndash;3 weeks:</strong> Arugula, lettuce, cilantro, radishes, spinach</li>
+    <li><strong>Every 3&ndash;4 weeks:</strong> Beans, beets, carrots, chard</li>
+    <li><strong>Replace after harvest:</strong> Spring spinach &rarr; summer chard, spring peas &rarr; fall beans</li>
+  </ul>
+
+  <p><strong>In your garden:</strong> Beds 2 and 4 are your succession beds &mdash; cilantro, lettuce, arugula in waves all season.</p>
+
+  <a href="https://www.youtube.com/results?search_query=succession+planting+vegetables+explained+beginner" target="_blank" class="video-link">&#x25B6; YouTube: Succession Planting</a>
+  <a href="https://www.farmersalmanac.com/what-succession-planting" target="_blank" class="source-link">Farmers' Almanac Guide</a>
+</div>
+
+<!-- COMPANION PLANTING -->
+<div class="topic" id="companion-planting">
+  <h2>Companion Planting</h2>
+  <p><strong>What it is:</strong> Growing certain plants together because they help each other &mdash; by repelling pests, attracting beneficial insects, improving flavor, or providing physical support. Your garden uses a <strong>3-layer system</strong>.</p>
+
+  <h3>Layer 1: Smell Camouflage</h3>
+  <p>Strong-smelling plants confuse pests so they can't find your crops by scent.</p>
+  <ul>
+    <li><strong>Basil</strong> with tomatoes &mdash; repels hornworms, aphids</li>
+    <li><strong>Marigolds</strong> in every food bed &mdash; repels whiteflies, aphids</li>
+    <li><strong>Cilantro</strong> through greens beds &mdash; confuses flea beetles</li>
+  </ul>
+
+  <h3>Layer 2: Trap Crops</h3>
+  <p>Sacrifice plants that pests prefer, pulling them away from your food.</p>
+  <ul>
+    <li><strong>Nasturtiums</strong> at bed edges &mdash; aphids eat these instead of your crops</li>
+    <li><strong>Radishes</strong> with squash &mdash; flea beetles prefer radish leaves</li>
+    <li><strong><a href="#blue-hubbard">Blue Hubbard squash</a></strong> &mdash; squash bugs love it more than your good squash</li>
+  </ul>
+
+  <h3>Layer 3: Beneficial Insect Border</h3>
+  <p>Plants that attract predator insects (ladybugs, lacewings, parasitic wasps) that eat your pests.</p>
+  <ul>
+    <li><strong>Sweet alyssum</strong> as low border &mdash; hoverfly larvae devour aphids</li>
+    <li><strong>Dill &amp; fennel</strong> &mdash; attract lacewings and ladybugs</li>
+    <li><strong>Yarrow</strong> at garden border &mdash; ladybugs, parasitic wasps</li>
+  </ul>
+
+  <a href="https://www.youtube.com/results?search_query=companion+planting+vegetables+three+sisters+trap+crops+beginner" target="_blank" class="video-link">&#x25B6; YouTube: Companion Planting</a>
+</div>
+
+<!-- SHIITAKE LOGS -->
+<div class="topic" id="shiitake-logs">
+  <h2>Shiitake Mushroom Log Inoculation</h2>
+  <p><strong>What it is:</strong> You drill holes in freshly cut hardwood logs, hammer in wooden dowels colonized with shiitake mycelium (plug spawn), seal with wax, and wait 6&ndash;18 months. Then soak the logs to trigger fruiting flushes for years.</p>
+
+  <h3>How to Do It</h3>
+  <div class="recipe-box">
+    <strong>Materials:</strong> Fresh-cut hardwood logs (oak is ideal, 3&ndash;6" diameter, 3&ndash;4 ft long), shiitake plug spawn (~100 plugs per log), 5/16" drill bit, hammer, cheese wax or beeswax, small brush.<br><br>
+    <strong>Steps:</strong><br>
+    1. <strong>Cut logs</strong> from live or recently fallen hardwood trees. Use within 2&ndash;4 weeks of cutting (bark must be intact).<br>
+    2. <strong>Drill holes</strong> 1" deep, spaced 6" apart along the log, in rows 2" apart. Diamond pattern.<br>
+    3. <strong>Hammer plugs</strong> into each hole until flush with the bark.<br>
+    4. <strong>Seal each hole</strong> with melted wax using a small brush. Also seal the cut ends of the log.<br>
+    5. <strong>Stack logs</strong> in a shaded spot (under Bed 17 pear trees). Lean-to or crib-stack.<br>
+    6. <strong>Keep moist</strong> &mdash; water every 2&ndash;3 weeks if no rain during incubation.<br>
+    7. <strong>Wait 6&ndash;18 months</strong> for full colonization (you'll see white mycelium on the ends).<br>
+    8. <strong>Force fruiting:</strong> Soak logs in cold water for 24 hours, stand upright. Mushrooms appear in 5&ndash;10 days.
+  </div>
+
+  <h3>Harvesting</h3>
+  <ul>
+    <li>Pick when caps are <strong>70&ndash;80% open</strong> (edges still slightly curled under).</li>
+    <li>Twist and pull &mdash; don't cut (leaving a stub invites contamination).</li>
+    <li>After harvesting a flush, rest logs for <strong>6&ndash;8 weeks</strong>, then soak again for another flush.</li>
+    <li>Each log produces for <strong>3&ndash;5 years</strong>.</li>
+  </ul>
+
+  <a href="https://www.youtube.com/results?search_query=how+to+inoculate+logs+shiitake+mushroom+plug+spawn+beginner" target="_blank" class="video-link">&#x25B6; YouTube: Shiitake Log Inoculation</a>
+  <a href="https://northspore.com/blogs/the-black-trumpet/growing-mushrooms-on-logs" target="_blank" class="source-link">North Spore Guide</a>
+  <a href="https://ohioline.osu.edu/factsheet/f-0040" target="_blank" class="source-link">Ohio State Extension</a>
+</div>
+
+<!-- WINE CAPS -->
+<div class="topic" id="wine-caps">
+  <h2>Wine Cap Mushrooms in Wood Chips</h2>
+  <p><strong>What it is:</strong> Wine caps (Stropharia rugosoannulata) are the easiest outdoor mushroom to grow. You mix spawn into wood chip beds or garden paths, and they fruit on their own when conditions are right. Caps can grow as big as dinner plates.</p>
+
+  <h3>How to Set It Up</h3>
+  <div class="recipe-box">
+    <strong>Materials:</strong> Wine cap sawdust spawn (1 bag covers ~25 sq ft), fresh hardwood chips (NOT cedar or walnut).<br><br>
+    <strong>Steps:</strong><br>
+    1. Choose a <strong>shaded or part-shade</strong> location &mdash; garden paths are perfect.<br>
+    2. Lay down <strong>4 inches of soaked wood chips</strong> (soak chips overnight).<br>
+    3. Break up spawn and <strong>sprinkle evenly</strong> over the chip layer.<br>
+    4. Cover with <strong>2&ndash;3 more inches of wood chips</strong>.<br>
+    5. Water well. Keep moist but not waterlogged.<br>
+    6. That's it. Wine caps do the rest.
+  </div>
+
+  <h3>Harvesting</h3>
+  <ul>
+    <li>First mushrooms appear <strong>3&ndash;6 months</strong> after inoculation, usually in fall.</li>
+    <li>Harvest when caps are <strong>still convex</strong> (dome-shaped) &mdash; before they flatten out.</li>
+    <li>Check beds frequently during cool, wet weather (Sept&ndash;Nov, March&ndash;May).</li>
+    <li>The mycelium spreads on its own &mdash; you can expand beds by moving colonized chips to new areas.</li>
+  </ul>
+
+  <h3>In Your Garden</h3>
+  <p>Wine caps are inoculated in the <strong>wood chip paths throughout the garden</strong> and around <strong>Bed 16 (asparagus)</strong>. The paths get naturally shaded by the raised beds and stay moist under the chips &mdash; ideal wine cap habitat.</p>
+
+  <a href="https://www.youtube.com/results?search_query=how+to+grow+wine+cap+mushrooms+wood+chips+garden" target="_blank" class="video-link">&#x25B6; YouTube: Growing Wine Caps</a>
+  <a href="https://northspore.com/blogs/the-black-trumpet/species-spotlight-wine-cap" target="_blank" class="source-link">North Spore Guide</a>
+  <a href="https://thedruidsgarden.com/2019/06/09/wine-cap-mushroom-cultivation-wood-chips-garden-beds-recipes-and-more/" target="_blank" class="source-link">Druid's Garden Guide</a>
+</div>
+
+</main>
+
+<div style="text-align:center;padding:1rem;font-size:0.75rem;color:var(--text-light);">
+  <a href="index.html" style="color:var(--sage);font-weight:600;text-decoration:none;">&larr; Back to Garden Planner</a>
+</div>
+
+</body>
+</html>
