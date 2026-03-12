@@ -1043,6 +1043,9 @@ section {
       <!-- Overall verdict -->
       <div id="water-verdict" style="padding:0.8rem;border-radius:10px;margin-bottom:1rem;font-size:0.9rem;"></div>
 
+      <!-- Frost alert -->
+      <div id="frost-alert" style="display:none;"></div>
+
       <!-- Per-bed recommendations -->
       <h4 style="color:var(--sage);margin-bottom:0.5rem;font-size:0.9rem;">Bed-by-Bed Recommendations</h4>
       <div class="card" style="padding:0;" id="bed-recs"></div>
@@ -3461,6 +3464,44 @@ section {
     else if (verdictClass === 'rain-coming') verdictDiv.style.background = '#bbdefb';
     else verdictDiv.style.background = '#c8e6c9';
     verdictDiv.innerHTML = verdict;
+
+    // === FROST ALERT ===
+    var frostDiv = document.getElementById('frost-alert');
+    var minTemps = data.daily.temperature_2m_min || [];
+    var frostDays = [];
+    for (var fi = (todayIdx >= 0 ? todayIdx : 0); fi < dates.length; fi++) {
+      if (minTemps[fi] != null && minTemps[fi] <= 34) {
+        var frostDate = new Date(dates[fi] + 'T12:00');
+        var dayName = fi === todayIdx ? 'TONIGHT' :
+          frostDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        frostDays.push({ date: dayName, low: Math.round(minTemps[fi]), isTonight: fi === todayIdx });
+      }
+    }
+    if (frostDays.length > 0 && (!cachedAt || dataAge < 24)) {
+      var isFreezeAny = frostDays.some(function(d) { return d.low <= 32; });
+      var frostHtml = '<div style="padding:0.8rem;border-radius:10px;margin-bottom:1rem;font-size:0.9rem;' +
+        'background:' + (isFreezeAny ? '#ffcdd2;border-left:5px solid #c62828' : '#ffe0b2;border-left:5px solid #e65100') + ';">';
+      frostHtml += '<strong style="font-size:1.1rem;">' +
+        (isFreezeAny ? '&#x1F6A8;&#x2744; FREEZE WARNING' : '&#x26A0;&#x1F321; FROST ALERT') + '</strong><br>';
+      frostDays.forEach(function(d) {
+        var icon = d.low <= 32 ? '&#x2744;' : '&#x1F321;';
+        var bold = d.isTonight ? 'font-weight:700;' : '';
+        frostHtml += '<span style="' + bold + '">' + icon + ' <strong>' + d.date + ':</strong> Low of ' + d.low + '&deg;F</span><br>';
+      });
+      frostHtml += '<br><strong>Protect your garden:</strong><ul style="margin:0.3rem 0 0 1.2rem;padding:0;">' +
+        '<li>Cover tender plants (tomatoes, peppers, squash, beans) with sheets or frost cloth</li>' +
+        '<li>Water soil well before nightfall &mdash; wet soil holds heat better</li>' +
+        '<li>Move potted plants to greenhouse or against the house</li>' +
+        '<li>Harvest any ripe fruit/veg that could be damaged</li>';
+      if (isFreezeAny) {
+        frostHtml += '<li><strong>Hard freeze (&le;32&deg;F):</strong> Even mulched beds at risk. Cover everything sensitive!</li>';
+      }
+      frostHtml += '</ul></div>';
+      frostDiv.innerHTML = frostHtml;
+      frostDiv.style.display = '';
+    } else {
+      frostDiv.style.display = 'none';
+    }
 
     // Per-bed recommendations — only show beds with active crops
     const currentMonth = new Date().getMonth() + 1; // 1-12
