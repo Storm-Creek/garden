@@ -2825,6 +2825,60 @@ section {
         <li class="task-item"><input type="checkbox" data-task="shop-milky-spore"><span class="task-text">Milky spore granules (for Japanese beetle grubs &mdash; apply Oct)</span></li>
       </ul>
     </div>
+
+    <h4 style="margin-top:1.2rem;margin-bottom:0.5rem;color:var(--soil);">&#x1F9F0; Supplies &amp; Consumables Inventory</h4>
+    <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:0.6rem;">Check what you have on hand. Unchecked = need to buy or restock. These also show as reminders in monthly cards when needed.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0.6rem;margin-bottom:0.8rem;">
+
+      <div style="background:#fff3e0;border:2px solid #e65100;border-radius:12px;padding:0.8rem;">
+        <h4 style="color:#e65100;margin-bottom:0.3rem;">Pest &amp; Disease Control</h4>
+        <ul class="task-list" style="list-style:none;">
+          <li class="task-item"><input type="checkbox" data-task="inv-neem-oil"><span class="task-text">Neem oil concentrate</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-diatomaceous"><span class="task-text">Diatomaceous earth (food grade)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-bt"><span class="task-text">Bt (Bacillus thuringiensis) spray</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-insecticidal-soap"><span class="task-text">Insecticidal soap</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-baking-soda"><span class="task-text">Baking soda (for fungicide mix)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-milky-spore"><span class="task-text">Milky spore granules (Japanese beetle grubs)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-dish-soap"><span class="task-text">Dish soap (for sprays &amp; beetle bucket)</span></li>
+        </ul>
+      </div>
+
+      <div style="background:#e8f5e9;border:2px solid var(--sage);border-radius:12px;padding:0.8rem;">
+        <h4 style="color:#2e7d32;margin-bottom:0.3rem;">Fertilizer &amp; Amendments</h4>
+        <ul class="task-list" style="list-style:none;">
+          <li class="task-item"><input type="checkbox" data-task="inv-chicken-poop"><span class="task-text">Composted chicken manure (bags or bulk)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-10-10-10"><span class="task-text">10-10-10 balanced fertilizer</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-holly-tone"><span class="task-text">Holly-tone (acidic fertilizer for blueberries)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-compost"><span class="task-text">General compost (bags or bulk)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-wood-ashes"><span class="task-text">Wood ashes (from firepit/stove)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-mulch"><span class="task-text">Wood chip mulch</span></li>
+        </ul>
+      </div>
+
+      <div style="background:#e3f2fd;border:2px solid #1565c0;border-radius:12px;padding:0.8rem;">
+        <h4 style="color:#1565c0;margin-bottom:0.3rem;">Weed &amp; Ground Control</h4>
+        <ul class="task-list" style="list-style:none;">
+          <li class="task-item"><input type="checkbox" data-task="inv-grass-killer"><span class="task-text">Grass killer / herbicide (paths &amp; edges)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-cardboard"><span class="task-text">Cardboard (weed barrier &amp; squash bug traps)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-landscape-fabric"><span class="task-text">Landscape fabric (if needed)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-garden-staples"><span class="task-text">Garden staples / landscape pins</span></li>
+        </ul>
+      </div>
+
+      <div style="background:#f3e5f5;border:2px solid #7b1fa2;border-radius:12px;padding:0.8rem;">
+        <h4 style="color:#7b1fa2;margin-bottom:0.3rem;">Tools &amp; Hardware</h4>
+        <ul class="task-list" style="list-style:none;">
+          <li class="task-item"><input type="checkbox" data-task="inv-drill-bit"><span class="task-text">5/16" drill bit (shiitake logs)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-spray-bottle"><span class="task-text">Pump sprayer (for neem/soap mix)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-row-cover"><span class="task-text">Frost cloth / row cover</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-plant-ties"><span class="task-text">Plant ties / twine (for arbors)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-beer"><span class="task-text">Cheap beer (slug traps)</span></li>
+          <li class="task-item"><input type="checkbox" data-task="inv-5gal-bucket"><span class="task-text">5-gallon bucket (manure tea brewing)</span></li>
+        </ul>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -3904,37 +3958,76 @@ section {
   // === INJECT SHOPPING REMINDERS INTO MONTHLY CARDS (3 months early) ===
   (function injectShoppingReminders() {
     var rows = document.querySelectorAll('.seed-table tbody tr');
-    var reminders = {}; // { monthNum: [{ name, variety, status, need }] }
+    var reminders = {}; // { monthNum: [{ name, detail, status, note }] }
+    function addReminder(mo, name, detail, status, note) {
+      if (!reminders[mo]) reminders[mo] = [];
+      reminders[mo].push({ name: name, detail: detail, status: status, note: note });
+    }
+
+    // --- Seed reminders (3 months before planting) ---
     rows.forEach(function(row) {
       var plantMonth = parseInt(row.getAttribute('data-plant-month'));
       var need = row.getAttribute('data-need');
-      if (!plantMonth || need === 'have') return; // skip items we already have
+      if (!plantMonth || need === 'have') return;
       var cells = row.querySelectorAll('td');
       if (cells.length < 2) return;
       var name = cells[0].textContent.trim();
       var variety = cells[1].textContent.trim();
       var status = need === 'buy' ? 'Order' : 'Check';
-      // Show 3 months before planting
       var shopMonth = plantMonth - 3;
       if (shopMonth < 1) shopMonth += 12;
-      if (!reminders[shopMonth]) reminders[shopMonth] = [];
-      reminders[shopMonth].push({ name: name, variety: variety, status: status, plantMonth: plantMonth });
+      var monthNames = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      addReminder(shopMonth, name, variety, status, 'plant ' + monthNames[plantMonth]);
     });
+
+    // --- Supply reminders: check inventory, show in month needed ---
+    // Map: inventory task ID → { label, months needed (show reminder this many months early) }
+    var supplySchedule = [
+      { inv: 'inv-neem-oil', label: 'Neem oil concentrate', months: [3, 4], note: 'need by Apr for squash/beetles' },
+      { inv: 'inv-diatomaceous', label: 'Diatomaceous earth', months: [3, 4], note: 'need by Apr for pest season' },
+      { inv: 'inv-bt', label: 'Bt spray', months: [4, 5], note: 'need by May for caterpillars' },
+      { inv: 'inv-insecticidal-soap', label: 'Insecticidal soap', months: [3, 4], note: 'need by Apr for aphids' },
+      { inv: 'inv-baking-soda', label: 'Baking soda (fungicide)', months: [4, 5], note: 'need by May for mildew' },
+      { inv: 'inv-milky-spore', label: 'Milky spore granules', months: [8, 9], note: 'apply Oct for beetle grubs' },
+      { inv: 'inv-dish-soap', label: 'Dish soap (sprays/beetle bucket)', months: [3, 4], note: 'need by Apr' },
+      { inv: 'inv-chicken-poop', label: 'Composted chicken manure', months: [1, 2], note: 'need for Mar amendments' },
+      { inv: 'inv-10-10-10', label: '10-10-10 fertilizer', months: [3, 4], note: 'need by May for side-dressing' },
+      { inv: 'inv-holly-tone', label: 'Holly-tone (blueberries)', months: [3, 4], note: 'need by May for bloom' },
+      { inv: 'inv-compost', label: 'General compost', months: [1, 2], note: 'need for Mar amendments' },
+      { inv: 'inv-mulch', label: 'Wood chip mulch', months: [2, 3], note: 'need for spring mulching' },
+      { inv: 'inv-grass-killer', label: 'Grass killer / herbicide', months: [2, 3], note: 'need for spring cleanup' },
+      { inv: 'inv-cardboard', label: 'Cardboard (weed barrier + traps)', months: [2, 3], note: 'need for spring prep' },
+      { inv: 'inv-spray-bottle', label: 'Pump sprayer', months: [3], note: 'need before pest season' },
+      { inv: 'inv-row-cover', label: 'Frost cloth / row cover', months: [2, 9], note: 'need for frost protection' },
+      { inv: 'inv-plant-ties', label: 'Plant ties / twine', months: [3, 4], note: 'need for arbor training' },
+      { inv: 'inv-beer', label: 'Cheap beer (slug traps)', months: [3, 4], note: 'need when planting starts' },
+      { inv: 'inv-5gal-bucket', label: '5-gallon bucket (manure tea)', months: [3, 4], note: 'need for tea brewing' }
+    ];
+    var currentState = loadState();
+    supplySchedule.forEach(function(supply) {
+      // If inventory checkbox is already checked (have it), skip
+      if (currentState[supply.inv]) return;
+      supply.months.forEach(function(mo) {
+        addReminder(mo, supply.label, '', 'Restock', supply.note);
+      });
+    });
+
+    // --- Render reminders into month cards ---
     var monthNames = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     Object.keys(reminders).forEach(function(mo) {
       var card = document.querySelector('.month-card[data-month="' + mo + '"]');
       if (!card) return;
       var body = card.querySelector('.month-body');
       if (!body) return;
-      var html = '<div class="task-category"><h4 style="color:#1565c0;">&#x1F6D2; Order Seeds/Supplies</h4><ul class="task-list">';
+      var html = '<div class="task-category"><h4 style="color:#1565c0;">&#x1F6D2; Order / Restock</h4><ul class="task-list">';
       reminders[mo].forEach(function(item) {
-        var taskId = 'shop-remind-' + mo + '-' + item.name.toLowerCase().replace(/\s+/g, '-');
+        var taskId = 'shop-remind-' + mo + '-' + item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
         html += '<li class="task-item"><input type="checkbox" data-task="' + taskId + '">' +
-          '<span class="task-text"><strong>' + item.status + ':</strong> ' + item.name + ' &mdash; ' + item.variety +
-          ' <span style="color:var(--text-light);font-size:0.78rem;">(plant ' + monthNames[item.plantMonth] + ')</span></span></li>';
+          '<span class="task-text"><strong>' + item.status + ':</strong> ' + item.name +
+          (item.detail ? ' &mdash; ' + item.detail : '') +
+          ' <span style="color:var(--text-light);font-size:0.78rem;">(' + item.note + ')</span></span></li>';
       });
       html += '</ul></div>';
-      // Insert at the top of the month body, after the progress bar
       var progress = body.querySelector('.month-progress');
       if (progress) {
         progress.insertAdjacentHTML('afterend', html);
@@ -3957,7 +4050,6 @@ section {
           updateProgress(this.closest('.month-card'));
         });
       });
-      // Update progress to include new checkboxes
       updateProgress(card);
     });
   })();
