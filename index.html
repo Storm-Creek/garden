@@ -1508,6 +1508,7 @@ section {
   <a href="#beds">&#x1F331; Bed Plans</a>
   <a href="#companions">&#x1F33C; Companions</a>
   <a href="#fertilizer">&#x1F4A9; Fertilizer</a>
+  <a href="#irrigation">&#x1F6B0; Irrigation</a>
   <a href="#sprays">&#x1F9EA; Sprays</a>
   <a href="#seeds">&#x1F330; Seeds</a>
   <a href="#mushrooms">&#x1F344; Mushrooms</a>
@@ -2255,7 +2256,7 @@ section {
       <!-- RPG Buildings -->
       <div class="rpg-coop">
         <div class="rpg-coop-emoji">&#x1F414;</div>
-        <div class="rpg-coop-label">Chicken Coop</div>
+        <div class="rpg-coop-label">Chicken Coop (~25)</div>
       </div>
 
       <div class="rpg-shed">
@@ -2678,11 +2679,11 @@ section {
           <td><strong>13</strong></td>
           <td>Blackberries</td>
           <td>0</td>
-          <td>3 lbs</td>
-          <td>10 lbs</td>
-          <td>0</td>
+          <td>5 lbs</td>
+          <td>15 lbs</td>
+          <td>5 lbs</td>
           <td>30 lbs</td>
-          <td>Skip ashes &mdash; blackberries prefer slightly acidic.</td>
+          <td>Skip ashes &mdash; blackberries prefer slightly acidic. Heavy feeder for primocane production.</td>
         </tr>
         <tr>
           <td><strong>16</strong></td>
@@ -2750,9 +2751,9 @@ section {
       <p><strong>Totals for the whole garden (approximate):</strong></p>
       <ul style="margin-top:0.3rem;padding-left:1.2rem;">
         <li><strong>Wood Ashes:</strong> ~12 lbs (a small bucket)</li>
-        <li><strong>Chicken Poop (composted):</strong> ~45 lbs (one bag)</li>
-        <li><strong>General Compost:</strong> ~190 lbs (3&ndash;4 wheelbarrow loads)</li>
-        <li><strong>Veggie Compost:</strong> ~100 lbs (2 wheelbarrow loads)</li>
+        <li><strong>Chicken Poop (composted):</strong> ~47 lbs (one bag)</li>
+        <li><strong>General Compost:</strong> ~195 lbs (3&ndash;4 wheelbarrow loads)</li>
+        <li><strong>Veggie Compost:</strong> ~105 lbs (2 wheelbarrow loads)</li>
         <li><strong>Wood Chip Mulch:</strong> ~380 lbs (6&ndash;8 wheelbarrow loads)</li>
         <li><strong>Pine Needle Mulch (Bed 19 only):</strong> ~15 lbs</li>
       </ul>
@@ -2956,9 +2957,9 @@ section {
       <h4 style="color:var(--earth);margin-bottom:0.4rem;">Bed 13 &mdash; Blackberries</h4>
       <ul class="task-list" style="list-style:none;padding-left:0;">
         <li class="task-item"><input type="checkbox" data-task="amend-13-ash"><span class="task-text"><strong>Wood Ashes:</strong> SKIP &mdash; blackberries prefer slightly acidic</span></li>
-        <li class="task-item"><input type="checkbox" data-task="amend-13-chk"><span class="task-text"><strong>Chicken Poop:</strong> 3 lbs (3 trowel scoops) &mdash; scatter along row</span></li>
-        <li class="task-item"><input type="checkbox" data-task="amend-13-gc"><span class="task-text"><strong>General Compost:</strong> 10 lbs (1.5 shovels) &mdash; spread along row</span></li>
-        <li class="task-item"><input type="checkbox" data-task="amend-13-vc"><span class="task-text"><strong>Veggie Compost:</strong> SKIP</span></li>
+        <li class="task-item"><input type="checkbox" data-task="amend-13-chk"><span class="task-text"><strong>Chicken Poop:</strong> 5 lbs (1 shovel) &mdash; scatter along row</span></li>
+        <li class="task-item"><input type="checkbox" data-task="amend-13-gc"><span class="task-text"><strong>General Compost:</strong> 15 lbs (2 shovels) &mdash; spread along row</span></li>
+        <li class="task-item"><input type="checkbox" data-task="amend-13-vc"><span class="task-text"><strong>Veggie Compost:</strong> 5 lbs (1 scoop) &mdash; top layer along row</span></li>
         <li class="task-item"><input type="checkbox" data-task="amend-13-mulch"><span class="task-text"><strong>Mulch:</strong> 30 lbs (6 shovels) &mdash; thick layer along row</span></li>
       </ul>
     </div>
@@ -3130,6 +3131,436 @@ section {
       <p><strong>Quick rule of thumb:</strong> Heavy feeders (tomatoes, peppers, squash, melons, blackberries) get fed every 2&ndash;3 weeks during active fruiting. Light feeders (herbs, arugula, onions) just need the spring amendment. Perennials (grapes, pears, blueberries, asparagus) get fed 2&ndash;3 times total: spring, after fruit set, and fall.</p>
     </div>
   </div>
+</section>
+
+<!-- ===== DRIP IRRIGATION SYSTEM ===== -->
+<section id="irrigation">
+  <div class="section-title"><span class="icon">&#x1F6B0;</span> Drip Irrigation System</div>
+
+  <!-- SYSTEM OVERVIEW -->
+  <div class="card">
+    <h4 style="color:var(--sage);margin-bottom:0.4rem;">System Overview</h4>
+    <p style="font-size:0.85rem;margin-bottom:0.6rem;">Automated low-volume drip &amp; micro-spray system on a single timer. One continuous 1/2&rdquo; poly mainline loops the full garden perimeter + 5 runs through the raised beds. 1/4&rdquo; micro tubing branches to individual adjustable heads at each bed. Water volume is controlled at each bed by adjustable spray heads (dialed up for heavy feeders, down for light) and inline shutoff valves (close beds that don&rsquo;t need water). One timer, one loop, one run time.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.6rem;font-size:0.82rem;">
+      <div style="background:#e8f5e9;border-radius:8px;padding:0.5rem;">
+        <strong>Mainline:</strong> 1/2&rdquo; black poly tubing<br>
+        Total run: ~650 ft
+      </div>
+      <div style="background:#e3f2fd;border-radius:8px;padding:0.5rem;">
+        <strong>Branch lines:</strong> 1/4&rdquo; vinyl micro tubing<br>
+        ~200 ft needed
+      </div>
+      <div style="background:#fff3e0;border-radius:8px;padding:0.5rem;">
+        <strong>Timer:</strong> Single-zone programmable<br>
+        Flow controlled per bed by adjustable heads
+      </div>
+      <div style="background:#fce4ec;border-radius:8px;padding:0.5rem;">
+        <strong>Filter:</strong> Inline mesh strainer<br>
+        Required &mdash; well water has particulate
+      </div>
+    </div>
+  </div>
+
+  <!-- ROUTING MAP -->
+  <div class="card" style="margin-top:1rem;">
+    <h4 style="color:var(--sage);margin-bottom:0.4rem;">Mainline Routing</h4>
+    <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:0.5rem;">1/2&rdquo; poly tubing path from hose bib around the full garden perimeter. All distances measured by pacing (19 steps = 50 ft).</p>
+
+    <div style="background:#f5f5f0;border-radius:10px;padding:0.8rem;font-size:0.82rem;font-family:monospace;line-height:1.8;border:2px solid var(--earth);">
+      <strong style="color:var(--earth);">HOSE BIB</strong> &rarr; Timer &rarr; Backflow Preventer &rarr; Filter &rarr; Pressure Regulator<br>
+      &nbsp;&nbsp;&darr;<br>
+      <strong>Raised Bed Runs (5 &times; 34 ft = 170 ft)</strong><br>
+      &nbsp;&nbsp;Run 1: Beds 9 &amp; 10 (left column) &mdash; 34 ft<br>
+      &nbsp;&nbsp;Run 2: Beds 7 &amp; 8 (second column) &mdash; 34 ft<br>
+      &nbsp;&nbsp;Run 3: Beds 5 &amp; 6 + Bed 11 grape arbor &mdash; 34 ft<br>
+      &nbsp;&nbsp;Run 4: Beds 3 &amp; 4 (fourth column) &mdash; 34 ft<br>
+      &nbsp;&nbsp;Run 5: Beds 1 &amp; 2 + Bed 12 greenhouse &mdash; 34 ft<br>
+      &nbsp;&nbsp;&darr;<br>
+      <strong>Fence Perimeter Run (~439 ft)</strong><br>
+      &nbsp;&nbsp;Along fence &rarr; 102 ft &rarr; <span style="color:#c62828;">down 6 ft &rarr; UNDERGROUND 25 ft &rarr; up 6 ft</span><br>
+      &nbsp;&nbsp;&rarr; Continue along fence past Bed 16 (asparagus), Bed 15 (Scuppernong),<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;Bed 14 (dormant), Bed 13 (blackberries) &mdash; 50 ft<br>
+      &nbsp;&nbsp;&rarr; Past Bed 17 (pear trees), Bed 19 (blueberries) &mdash; 50 ft + 50 ft<br>
+      &nbsp;&nbsp;&rarr; Along back to Bed 18 (squash/onions) &mdash; 50 ft<br>
+      &nbsp;&nbsp;&rarr; Continue to Area 20 (melons/pumpkins) &mdash; 50 ft + 50 ft<br>
+      &nbsp;&nbsp;&darr;<br>
+      <strong style="color:var(--sage);">END CAP</strong> (middle of melon area)
+    </div>
+
+    <div style="background:#fff3e0;border-radius:8px;padding:0.5rem;margin-top:0.6rem;font-size:0.78rem;border-left:4px solid #e65100;">
+      <strong>Underground crossing:</strong> 25 ft section requires 1&rdquo; PVC conduit to protect the poly tubing. Dig trench ~6&rdquo; deep, lay conduit, thread tubing through. The 6 ft down + 6 ft up are vertical risers at each end.
+    </div>
+  </div>
+
+  <!-- PER-BED HEAD ASSIGNMENTS -->
+  <div class="card" style="margin-top:1rem;overflow-x:auto;">
+    <h4 style="color:var(--sage);margin-bottom:0.3rem;">Per-Bed Head Assignments</h4>
+    <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:0.5rem;">Each head punches into the 1/2&rdquo; mainline or connects via 1/4&rdquo; riser tubing. Adjustable heads let you tune flow when crops change. All raised bed heads mounted on 12-18&rdquo; riser stakes (above foliage).</p>
+
+    <div style="background:#fff3e0;border-radius:8px;padding:0.5rem;margin-bottom:0.8rem;font-size:0.78rem;border-left:4px solid #e65100;">
+      <strong>Spray vs. Drip &mdash; why it matters:</strong> Wet foliage invites powdery mildew, blight, and fungal disease. Plants prone to these problems (tomatoes, squash, cucumbers, grapes) get <strong>drippers at soil level</strong>. Plants that benefit from leaf washing (greens, flowers, herbs) or don&rsquo;t get foliar disease get <strong>overhead micro sprays on risers</strong>. The table below specifies which method for each bed.
+    </div>
+
+    <table class="bed-table" style="font-size:0.8rem;">
+      <thead>
+        <tr>
+          <th>Bed</th>
+          <th>Crops</th>
+          <th>Delivery</th>
+          <th>Head Type</th>
+          <th>Qty</th>
+          <th>Flow Rate</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#e8f5e9;">
+          <td colspan="7" style="font-weight:600;color:var(--sage);text-align:center;">High Flow (dial heads up: 1&ndash;2 GPH)</td>
+        </tr>
+        <tr>
+          <td><strong>1</strong></td>
+          <td>Tomatoes &amp; Peppers</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper on stake, ground level</td>
+          <td>2</td>
+          <td>2 GPH each</td>
+          <td>NEVER overhead spray &mdash; blight &amp; mildew risk. Drip at base, keep leaves dry.</td>
+        </tr>
+        <tr>
+          <td><strong>1+</strong></td>
+          <td>Cucumbers (arbor)</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>0.5&ndash;1 GPH dripper</td>
+          <td>1</td>
+          <td>1 GPH</td>
+          <td>Drip at base of arbor. Cucumbers get powdery mildew from wet leaves.</td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td>Greens (spinach, chard)</td>
+          <td>&#x1F6BF; Overhead spray</td>
+          <td>Adjustable micro spray, 180&deg; on riser</td>
+          <td>2</td>
+          <td>1 GPH each</td>
+          <td>Greens benefit from leaf washing &mdash; rinses dust &amp; aphids. Morning only.</td>
+        </tr>
+        <tr>
+          <td><strong>6</strong></td>
+          <td>Strawberries</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper on stake, ground level</td>
+          <td>2</td>
+          <td>1.5 GPH each</td>
+          <td>Wet fruit = gray mold (botrytis). Drip at soil, keep fruit dry.</td>
+        </tr>
+        <tr>
+          <td><strong>9</strong></td>
+          <td>Cut Flowers</td>
+          <td>&#x1F6BF; Overhead spray</td>
+          <td>Adjustable micro spray, 180&deg; on riser</td>
+          <td>2</td>
+          <td>1 GPH each</td>
+          <td>Flowers tolerate overhead water well. Rinses pests.</td>
+        </tr>
+        <tr>
+          <td><strong>13</strong></td>
+          <td>Blackberries</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper on stake, ground level</td>
+          <td>3</td>
+          <td>1 GPH each</td>
+          <td>Wet canes = anthracnose &amp; cane blight. Drip at roots along row.</td>
+        </tr>
+        <tr>
+          <td><strong>16</strong></td>
+          <td>Asparagus</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper, ground level (pie layout)</td>
+          <td>2</td>
+          <td>1 GPH each</td>
+          <td>Deep root zone needs slow soak, not spray. Keeps fern foliage dry.</td>
+        </tr>
+        <tr>
+          <td><strong>18-1</strong></td>
+          <td>Squash Mound</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper on stake, ground level</td>
+          <td>2</td>
+          <td>2 GPH each</td>
+          <td>NEVER overhead &mdash; powdery mildew magnet. Drip at mound base.</td>
+        </tr>
+        <tr>
+          <td><strong>19</strong></td>
+          <td>Blueberries</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper, ground level (pie layout)</td>
+          <td>2</td>
+          <td>1 GPH each</td>
+          <td>Wet fruit = mummyberry fungus. Drip at soil, keep bushes dry.</td>
+        </tr>
+        <tr>
+          <td><strong>20</strong></td>
+          <td>Melons &amp; Pumpkins</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper on stake, ground level</td>
+          <td>4</td>
+          <td>1.5 GPH each</td>
+          <td>Same family as squash &mdash; no wet leaves. Space drippers every ~10 ft.</td>
+        </tr>
+        <tr style="background:#e3f2fd;">
+          <td colspan="7" style="font-weight:600;color:#1565c0;text-align:center;">Low Flow (dial heads down: 0.5 GPH)</td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td>Herbs (parsley, dill, lettuce)</td>
+          <td>&#x1F6BF; Overhead spray</td>
+          <td>Adjustable micro spray, 180&deg; on riser</td>
+          <td>2</td>
+          <td>0.5 GPH each</td>
+          <td>Herbs &amp; lettuce tolerate spray. Washes off aphids. Dial flow low.</td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td>Arugula &amp; Cilantro</td>
+          <td>&#x1F6BF; Overhead spray</td>
+          <td>Adjustable micro spray, 180&deg; on riser</td>
+          <td>2</td>
+          <td>0.5 GPH each</td>
+          <td>Leafy greens &mdash; overhead OK. Morning watering dries by afternoon.</td>
+        </tr>
+        <tr>
+          <td><strong>5</strong></td>
+          <td>Onions</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper, ground level</td>
+          <td>1</td>
+          <td>0.5 GPH</td>
+          <td>Wet onion tops = downy mildew. Keep foliage dry.</td>
+        </tr>
+        <tr>
+          <td><strong>7</strong></td>
+          <td>Onions</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper, ground level</td>
+          <td>2</td>
+          <td>0.5 GPH each</td>
+          <td>Same as Bed 5. One per half-bed.</td>
+        </tr>
+        <tr>
+          <td><strong>7+</strong></td>
+          <td>Sugar Snap Peas (arbor)</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>0.5 GPH dripper</td>
+          <td>1</td>
+          <td>0.5 GPH</td>
+          <td>Peas get powdery mildew. Drip at base of arbor.</td>
+        </tr>
+        <tr>
+          <td><strong>8</strong></td>
+          <td>Herbs &amp; Flowers (NEW)</td>
+          <td>&#x1F6BF; Overhead spray</td>
+          <td>Adjustable micro spray, 180&deg; on riser</td>
+          <td>2</td>
+          <td>0.5 GPH each</td>
+          <td>Herbs &amp; pollinator flowers tolerate spray. Dial low.</td>
+        </tr>
+        <tr>
+          <td><strong>10</strong></td>
+          <td>Succulent Rock Garden</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>0.5 GPH dripper</td>
+          <td>1</td>
+          <td>0.5 GPH</td>
+          <td>Minimal. Succulents rot if leaves stay wet. Shut off mid-summer.</td>
+        </tr>
+        <tr>
+          <td><strong>11</strong></td>
+          <td>Catawba Grape (2 vines)</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>0.5&ndash;1 GPH dripper</td>
+          <td>2</td>
+          <td>0.5 GPH each</td>
+          <td>Wet grape foliage = black rot &amp; downy mildew. Drip at vine base only.</td>
+        </tr>
+        <tr>
+          <td><strong>15</strong></td>
+          <td>Scuppernong Grape</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>0.5&ndash;1 GPH dripper</td>
+          <td>1</td>
+          <td>0.5 GPH</td>
+          <td>Same as Catawba. Drip at vine base. Drought tolerant.</td>
+        </tr>
+        <tr>
+          <td><strong>17</strong></td>
+          <td>Pear Trees</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>0.5&ndash;1 GPH dripper</td>
+          <td>2</td>
+          <td>0.5 GPH each</td>
+          <td>Wet pear leaves = fire blight risk. Drip at drip line, not trunk.</td>
+        </tr>
+        <tr>
+          <td><strong>18-2</strong></td>
+          <td>Egyptian Onions</td>
+          <td>&#x1F4A7; Soil drip</td>
+          <td>Adjustable dripper, ground level</td>
+          <td>1</td>
+          <td>0.5 GPH</td>
+          <td>Low need, keep foliage dry. Mostly rain-fed.</td>
+        </tr>
+        <tr style="background:#fff3e0;">
+          <td colspan="7" style="font-weight:600;color:#e65100;text-align:center;">Bonus &mdash; Chicken Waterer</td>
+        </tr>
+        <tr>
+          <td><strong>&#x1F414;</strong></td>
+          <td>Chicken Coop (~25 birds)</td>
+          <td>&#x1F4A7; Drip</td>
+          <td>0.5 GPH dripper</td>
+          <td>1</td>
+          <td>0.5 GPH</td>
+          <td>Slow drip into water dish. 90 min run = ~0.75 gal fresh water per cycle.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-light);">
+      <strong>Head totals:</strong> ~40 heads needed. You have ~12&ndash;15 on hand (8&ndash;9 half-circle fans + a few 320&deg; sprays + plugs). <strong>Buy ~25&ndash;30 more adjustable heads + 10 drippers.</strong>
+    </div>
+  </div>
+
+  <!-- TIMER SCHEDULE -->
+  <div class="card" style="margin-top:1rem;">
+    <h4 style="color:var(--sage);margin-bottom:0.4rem;">Timer Schedule</h4>
+    <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:0.5rem;">Single timer, early morning to minimize evaporation and let foliage dry before nightfall. Each bed&rsquo;s adjustable head controls how much water it actually gets during the run. Adjust run time seasonally.</p>
+
+    <table class="bed-table" style="font-size:0.82rem;">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Spring (Mar&ndash;May)</th>
+          <th>Summer (Jun&ndash;Aug)</th>
+          <th>Fall (Sep&ndash;Nov)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Start time</strong></td>
+          <td>5:30 AM</td>
+          <td>5:00 AM</td>
+          <td>6:00 AM</td>
+        </tr>
+        <tr>
+          <td><strong>Run time</strong></td>
+          <td>60 min</td>
+          <td>90&ndash;120 min</td>
+          <td>45&ndash;60 min</td>
+        </tr>
+        <tr>
+          <td><strong>Frequency</strong></td>
+          <td>Every 3 days</td>
+          <td>Every 2 days</td>
+          <td>Every 4 days</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="background:#e8f5e9;border-radius:8px;padding:0.5rem;margin-top:0.6rem;font-size:0.78rem;border-left:4px solid var(--sage);">
+      <strong>How volume is controlled per bed:</strong> The timer runs for the same duration across the whole system. High-need beds (tomatoes, squash, melons) have heads dialed up to 1.5&ndash;2 GPH. Low-need beds (herbs, onions, succulents) are dialed down to 0.5 GPH. Use the inline shutoff valves to close off beds entirely when not needed &mdash; shut off Bed 10 (succulents) mid-summer, Bed 16 (asparagus) after harvest, grape/tree drippers except during extended drought (7+ dry days). The weather-smart watering guide above will tell you when to skip cycles.
+    </div>
+  </div>
+
+  <!-- INVENTORY & SHOPPING LIST -->
+  <div class="card" style="margin-top:1rem;">
+    <h4 style="color:var(--sage);margin-bottom:0.3rem;">Installation Checklist &amp; Shopping List</h4>
+    <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:0.5rem;">Check off what you already have. Remaining items are the Lowe&rsquo;s shopping list.</p>
+
+    <h4 style="color:var(--earth);margin-bottom:0.3rem;margin-top:0.6rem;">Already Have</h4>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-have-tubing" checked><span class="task-text">1/4&rdquo; vinyl micro tubing &mdash; 30 ft</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-have-180" checked><span class="task-text">180&deg; half-circle fan micro sprays &mdash; 8&ndash;9 units</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-have-fan" checked><span class="task-text">165&deg;/180&deg;/320&deg; fan sprays (orange &amp; green) &mdash; a few</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-have-fittings" checked><span class="task-text">Assorted fittings</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-have-collars" checked><span class="task-text">Vinyl locking collars (shutoffs) &mdash; some</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-have-plugs" checked><span class="task-text">Hole plugs &mdash; several</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-have-stakes" checked><span class="task-text">Riser stakes with hose risers &mdash; 1&ndash;2</span></li>
+    </ul>
+
+    <h4 style="color:#c62828;margin-bottom:0.3rem;margin-top:0.8rem;">Need to Buy &mdash; Lowe&rsquo;s</h4>
+
+    <div style="font-weight:600;color:var(--earth);margin-top:0.5rem;margin-bottom:0.2rem;">Mainline</div>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-mainline"><span class="task-text">1/2&rdquo; poly drip tubing, 250 ft roll &times; 3 (750 ft total)</span></li>
+    </ul>
+
+    <div style="font-weight:600;color:var(--earth);margin-top:0.5rem;margin-bottom:0.2rem;">Fittings (1/2&rdquo; barb)</div>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-elbows"><span class="task-text">1/2&rdquo; elbows &times; 20</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-tees"><span class="task-text">1/2&rdquo; tees &times; 15</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-couplers"><span class="task-text">1/2&rdquo; couplers &times; 8</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-endcaps"><span class="task-text">1/2&rdquo; end caps &times; 6</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-hoseadapter"><span class="task-text">Female hose thread to 1/2&rdquo; barb adapter &times; 1</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-barbconn"><span class="task-text">1/4&rdquo; barb connectors (mainline to micro tubing) &times; 30</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-punch"><span class="task-text">Hole punch tool (for 1/4&rdquo; holes in 1/2&rdquo; tubing) &times; 1</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-stakes-main"><span class="task-text">1/2&rdquo; tubing hold-down stakes &times; 50</span></li>
+    </ul>
+
+    <div style="font-weight:600;color:var(--earth);margin-top:0.5rem;margin-bottom:0.2rem;">1/4&rdquo; Distribution</div>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-micro"><span class="task-text">1/4&rdquo; vinyl micro tubing, 100 ft roll &times; 2</span></li>
+    </ul>
+
+    <div style="font-weight:600;color:var(--earth);margin-top:0.5rem;margin-bottom:0.2rem;">Heads &amp; Emitters</div>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-adj-spray"><span class="task-text">Adjustable flow micro sprayers (0&ndash;10 GPH) &times; 25</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-drippers"><span class="task-text">0.5 GPH drip emitters &times; 10 (grapes, trees, chicken waterer)</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-shutoffs"><span class="task-text">1/4&rdquo; inline shutoff valves &times; 15</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-plugs"><span class="task-text">1/4&rdquo; hole plugs &times; 10 pack</span></li>
+    </ul>
+
+    <div style="font-weight:600;color:var(--earth);margin-top:0.5rem;margin-bottom:0.2rem;">Risers</div>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-risers"><span class="task-text">12&ndash;18&rdquo; riser stakes with 1/4&rdquo; barb &times; 30 (heads above foliage)</span></li>
+    </ul>
+
+    <div style="font-weight:600;color:var(--earth);margin-top:0.5rem;margin-bottom:0.2rem;">Controls (at hose bib)</div>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-timer"><span class="task-text">Programmable hose-end timer, single-zone (Orbit or Melnor) &times; 1</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-filter"><span class="task-text">Inline mesh filter/strainer &times; 1 (critical for well water)</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-regulator"><span class="task-text">Pressure regulator, 25&ndash;30 PSI &times; 1</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-backflow"><span class="task-text">Backflow preventer &times; 1</span></li>
+    </ul>
+
+    <div style="font-weight:600;color:var(--earth);margin-top:0.5rem;margin-bottom:0.2rem;">Underground Crossing (25 ft section)</div>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-pvc"><span class="task-text">1&rdquo; PVC pipe, 10 ft sticks &times; 3</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-pvccoup"><span class="task-text">1&rdquo; PVC couplers &times; 2</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-buy-pvcglue"><span class="task-text">PVC cement + primer set &times; 1</span></li>
+    </ul>
+
+    <div style="background:#e8f5e9;border-radius:8px;padding:0.6rem;margin-top:0.8rem;font-size:0.82rem;border-left:4px solid var(--sage);">
+      <strong>Estimated total:</strong> $250&ndash;350 at Lowe&rsquo;s. The 1/2&rdquo; tubing (~$15&ndash;20 per 250 ft roll) is the biggest single expense. Fittings and heads are $1&ndash;3 each but add up.
+    </div>
+  </div>
+
+  <!-- INSTALLATION ORDER -->
+  <div class="card" style="margin-top:1rem;">
+    <h4 style="color:var(--sage);margin-bottom:0.3rem;">Installation Steps</h4>
+    <ul class="task-list" style="list-style:none;padding-left:0;font-size:0.82rem;">
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-1"><span class="task-text"><strong>Step 1:</strong> Lay out all mainline tubing on the ground along planned route. Let it warm in the sun for 30 min (uncoils easier).</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-2"><span class="task-text"><strong>Step 2:</strong> Install controls at hose bib in order: timer &rarr; backflow preventer &rarr; filter &rarr; pressure regulator &rarr; hose-to-barb adapter.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-3"><span class="task-text"><strong>Step 3:</strong> Run 5 mainline runs through raised bed area. Cut, add tees at branch points, elbows at turns. Stake down every 3&ndash;4 ft.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-4"><span class="task-text"><strong>Step 4:</strong> Dig trench for underground crossing. Glue PVC conduit, thread tubing through, backfill.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-5"><span class="task-text"><strong>Step 5:</strong> Run perimeter mainline along fence. Stake down. Add end caps at terminus.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-6"><span class="task-text"><strong>Step 6:</strong> Punch holes at each bed location. Insert 1/4&rdquo; barb connectors. Run 1/4&rdquo; micro tubing to riser stakes at each bed.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-7"><span class="task-text"><strong>Step 7:</strong> Mount spray heads / drippers on riser stakes. Adjust flow rate per the head assignment table above.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-8"><span class="task-text"><strong>Step 8:</strong> Install inline shutoff valves on each bed&rsquo;s 1/4&rdquo; branch line.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-9"><span class="task-text"><strong>Step 9:</strong> Run 1/4&rdquo; line to chicken coop water dish. Attach 0.5 GPH dripper above dish.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-10"><span class="task-text"><strong>Step 10:</strong> Turn on water. Walk entire system checking for leaks, spray coverage, and flow rates. Adjust heads.</span></li>
+      <li class="task-item"><input type="checkbox" data-task="irr-inst-11"><span class="task-text"><strong>Step 11:</strong> Program timer: Zone 1 heavy cycle, Zone 2 light cycle per schedule above.</span></li>
+    </ul>
+  </div>
+
 </section>
 
 <!-- ===== NATURAL SPRAYS & PEST CONTROL ===== -->
@@ -3538,6 +3969,7 @@ section {
       <li><span class="year-tag">Lesson</span> <strong>Grapes &amp; pears produce well</strong> with minimal attention. Just prune and harvest.</li>
       <li><span class="year-tag">2025</span> <strong>Japanese beetles destroyed Catawba grapes.</strong> 2026 plan: neem oil spray every 7-10 days Jun&ndash;Aug, daily hand-picking mornings into soapy water, milky spore in surrounding ground (Oct). Do NOT use bag traps &mdash; they attract more beetles than they catch.</li>
       <li><span class="year-tag">2026</span> <strong>New beds 8, 9, 10</strong> add herbs, cut flowers, and succulents. More beauty, more pollinators, drought-tolerant options. Should make the garden more attractive and resilient.</li>
+      <li><span class="year-tag">2026</span> <strong>Drip irrigation system planned.</strong> 1/2&rdquo; poly mainline looping entire perimeter (~650 ft) + 5 runs through raised beds. 2-zone timer, adjustable micro sprays on riser stakes above foliage, plus auto chicken waterer. Eliminates daily hand-watering trips. See <a href="#irrigation">Irrigation</a> section.</li>
     </ul>
   </div>
 </section>
